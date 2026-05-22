@@ -144,25 +144,20 @@
             .filter-section { flex-direction: column; align-items: stretch; }
             .search-box { width: 100%; }
         }
+        /* TARUH DI BAGIAN BAWAH STYLE CSS PRODUK.HTML */
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -15px; /* Membuat jembatan gaib setinggi 15 piksel ke atas */
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: transparent; /* Tidak terlihat oleh pembeli */
+}
     </style>
 </head>
 <body>
 
-    <!-- PANEL KUSTOMISASI -->
-    <div class="customizer">
-        <h4>Kustomisasi Toko</h4>
-        <div class="control-group">
-            <label>Warna Utama</label>
-            <input type="color" id="primaryColorPicker" value="#3b82f6">
-        </div>
-        <div class="control-group">
-            <label>Warna Sekunder</label>
-            <input type="color" id="secondaryColorPicker" value="#1e3a8a">
-        </div>
-        <div class="control-group">
-            <button class="btn-theme" id="themeToggle">Mode Gelap</button>
-        </div>
-    </div>
 
     <!-- HEADER / NAVIGATION -->
     <header>
@@ -246,6 +241,24 @@
                 document.getElementById('productGrid').innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: red;">Gagal mengambil data dari Google Sheets. Periksa kembali Web App URL Anda.</p>`;
             }
         }
+        async function loadProductsData() {
+    // Cek apakah data sudah ada di cache browser
+    const cachedData = sessionStorage.getItem('products_cache');
+    if (cachedData) {
+        renderProducts(JSON.parse(cachedData));
+        return;
+    }
+
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        // Simpan ke cache agar kunjungan berikutnya instan
+        sessionStorage.setItem('products_cache', JSON.stringify(data));
+        renderProducts(data);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
         // --- ARSITEKTUR KARTU PRODUK OTOMATIS ---
 // CARI FUNGSI INI DI DALAM TAG <script> PADA FILE produk.html DAN GANTI TOTAL:
