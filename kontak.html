@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak Kami - TokoKu</title>
+    <style>
+        /* --- VARIABLE CSS (Konsisten dengan halaman lain) --- */
+        :root {
+            --primary-color: #3b82f6;      
+            --secondary-color: #1e3a8a;    
+            --background-color: #f8fafc;   
+            --card-background: #ffffff;    
+            --text-color: #1e293b;         
+            --text-light: #64748b;         
+            --border-radius: 12px;         
+        }
+
+        [data-theme="dark"] {
+            --background-color: #0f172a;
+            --card-background: #1e293b;
+            --text-color: #f8fafc;
+            --text-light: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* --- PANEL KUSTOMISASI --- */
+        .customizer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-background);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border: 1px solid var(--text-light);
+            max-width: 250px;
+        }
+        .customizer h4 { margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; }
+        .control-group { margin-bottom: 12px; }
+        .control-group label { display: block; font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; }
+        .customizer input[type="color"] { width: 100%; height: 35px; border: none; border-radius: 6px; cursor: pointer; }
+        .btn-theme { width: 100%; padding: 8px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            background-color: var(--card-background);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- DROPDOWN SUB-MENU --- */
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; background-color: var(--card-background); min-width: 200px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-radius: 8px; list-style: none; padding: 10px 0; margin-top: 10px;
+            opacity: 0; pointer-events: none; transform: translateY(-10px); transition: opacity 0.3s, transform 0.3s; z-index: 1000;
+        }
+        .dropdown-menu li a { display: block; padding: 10px 20px; color: var(--text-color); text-decoration: none; }
+        .dropdown-menu li a:hover { background-color: rgba(0, 0, 0, 0.05); color: var(--primary-color); }
+        .dropdown:hover .dropdown-menu { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        /* --- MAIN CONTENT (CONTACT PAGE) --- */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .contact-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Grid Pembagian Formulir & Info Kontak */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+        }
+
+        /* Blok Formulir Pesan */
+        .contact-form-wrapper {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .contact-form-wrapper h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--text-light);
+            border-radius: 8px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* Blok Info Kontak */
+        .contact-info-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-card {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .info-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Tombol Shortcut Eksternal */
+        .btn-action-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .btn-action-link:hover {
+            text-decoration: underline;
+        }
+
+        /* --- FOOTER --- */
+        footer { background-color: var(--card-background); text-align: center; padding: 40px 20px; margin-top: 60px; color: var(--text-light); }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 768px) {
+            .customizer { position: static; max-width: 100%; margin: 20px; }
+            .navbar { flex-direction: column; gap: 15px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANEL KUSTOMISASI -->
+    <div class="customizer">
+        <h4>Kustomisasi Toko</h4>
+        <div class="control-group">
+            <label>Warna Utama</label>
+            <input type="color" id="primaryColorPicker" value="#3b82f6">
+        </div>
+        <div class="control-group">
+            <label>Warna Sekunder</label>
+            <input type="color" id="secondaryColorPicker" value="#1e3a8a">
+        </div>
+        <div class="control-group">
+            <button class="btn-theme" id="themeToggle">Mode Gelap</button>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">TokoKu.</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li class="dropdown">
+                    <a href="produk.html" class="dropdown-toggle">Produk ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="produk.html">Makanan & Camilan</a></li>
+                        <li><a href="produk.html">Pakaian & Gaya</a></li>
+                        <li><a href="produk.html">Elektronik</a></li>
+                    </ul>
+                </li>
+                <li><a href="tentang.html">Tentang Kami</a></li>
+                <li><a href="kontak.html" style="color: var(--primary-color); font-weight: bold;">Kontak</a></li>
+                <!-- TAMBAHKAN TOMBOL MENU KERANJANG DI BAWAH INI -->
+    <li>
+        <a href="keranjang.html" style="position: relative; font-weight: bold;">
+            🛒 Keranjang (<span class="cart-count" style="color: var(--primary-color);">0</span>)
+        </a>
+    </li>
+</ul>
+                </li>
+
+        </nav>
+    </header>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        
+        <section class="contact-header">
+            <h1>Hubungi Kami</h1>
+            <p>Punya pertanyaan mengenai produk atau pemesanan? Tim kami siap melayani Anda.</p>
+        </section>
+
+        <div class="contact-grid">
+            
+            <!-- Sisi Kiri: Formulir Kontak (Mengirim Teks Langsung ke WhatsApp) -->
+            <div class="contact-form-wrapper">
+                <h2>Kirim Pesan Masukan</h2>
+                <form id="waMessageForm">
+                    <div class="form-group">
+                        <label for="clientName">Nama Lengkap</label>
+                        <input type="text" id="clientName" class="form-control" placeholder="Masukkan nama Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientSubject">Subjek / Keperluan</label>
+                        <input type="text" id="clientSubject" class="form-control" placeholder="Contoh: Tanya Stok / Kerjasama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientText">Isi Pesan</label>
+                        <textarea id="clientText" class="form-control" rows="5" placeholder="Tuliskan pesan Anda secara mendetail..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Kirim Lewat WhatsApp</button>
+                </form>
+            </div>
+
+            <!-- Sisi Kanan: Informasi Detail Kontak Fisik / Toko -->
+            <div class="contact-info-wrapper">
+                
+                <div class="info-card">
+                    <h3>📍 Alamat Toko</h3>
+                    <p>Jl. Jenderal Sudirman No. 123, Komplek Niaga Center, Kota Anda, Indonesia</p>
+                    <a href="https://maps.google.com" target="_blank" class="btn-action-link">Buka di Google Maps ➔</a>
+                </div>
+
+                <div class="info-card">
+                    <h3>📞 Layanan Pelanggan</h3>
+                    <p>WhatsApp: +62 812-3456-7890<br>Jam Kerja: Senin - Sabtu (08:00 - 17:00 WIB)</p>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="btn-action-link">Mulai Chat Langsung ➔</a>
+                </div>
+
+                <div class="info-card">
+                    <h3>✉️ Surat Elektronik</h3>
+                    <p>Kirimkan proposal bisnis atau keluhan formal Anda melalui email kami:</p>
+                    <p><strong>support@tokoku.com</strong></p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TokoKu. All rights reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const root = document.documentElement;
+        const primaryPicker = document.getElementById('primaryColorPicker');
+        const secondaryPicker = document.getElementById('secondaryColorPicker');
+        const themeToggle = document.getElementById('themeToggle');
+
+        primaryPicker.addEventListener('input', (e) => root.style.setProperty('--primary-color', e.target.value));
+        secondaryPicker.addEventListener('input', (e) => root.style.setProperty('--secondary-color', e.target.value));
+        
+        themeToggle.addEventListener('click', () => {
+            if (root.getAttribute('data-theme') === 'dark') {
+                root.removeAttribute('data-theme');
+                themeToggle.innerText = 'Mode Gelap';
+            } else {
+                root.setAttribute('data-theme', 'dark');
+                themeToggle.innerText = 'Mode Terang';
+            }
+        });
+
+        // --- INTERAKSI FORMULIR UNTUK DIKIRIM KE WHATSAPP ---
+        document.getElementById('waMessageForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah reload halaman saat klik submit
+
+            const name = document.getElementById('clientName').value;
+            const subject = document.getElementById('clientSubject').value;
+            const message = document.getElementById('clientText').value;
+            
+            // Ganti dengan nomor WhatsApp toko Anda asli (Awal kode 62)
+            const targetWhatsappNumber = "6281234567890"; 
+
+            // Menyusun format text pesan otomatis
+            const formattedText = `Halo TokoKu,%0A%0ASaya *${name}*%0AKeperluan: _${subject}_%0A%0APesan:%0A${message}`;
+            
+            // Mengarahkan ke tautan URL WhatsApp API baru
+            const whatsappUrl = `https://wa.me/${targetWhatsappNumber}?text=${formattedText}`;
+            
+            // Membuka chat WhatsApp di tab baru browser
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
