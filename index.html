@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - TokoKu</title>
+    <style>
+        /* --- VARIABLE STYLING UTAMA --- */
+        :root {
+            --primary: #4f46e5;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--background); color: var(--text-main); line-height: 1.6; }
+
+        /* --- NAVBAR & DROPDOWN --- */
+        header { background-color: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 18px 20px; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        
+        .nav-links { display: flex; list-style: none; gap: 24px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; display: block; }
+        .nav-links a:hover, .dropdown:hover > a { color: var(--primary); }
+
+        /* Struktur Utama Elemen Dropdown */
+        .dropdown { position: relative; }
+        
+        /* Kotak Menu Pilihan Dropdown */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%; /* Menempel pas di bawah tombol tanpa celah */
+            left: 0;
+            background-color: var(--card-bg);
+            min-width: 180px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            list-style: none;
+            padding: 8px 0;
+            margin-top: 0; /* Menghilangkan celah udara penyebab popup hilang */
+            
+            /* Sembunyikan bawaan awal */
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li a {
+            padding: 10px 16px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        /* Jembatan Gaib pembantu agar kursor aman saat bergerak diagonal */
+        .dropdown-menu::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: transparent;
+        }
+
+        /* LOGIKA HOVER: Tampilkan dropdown saat menu Produk disorot */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* --- HERO BANNER DENGAN BACKGROUND BERGERAK (KEN BURNS EFFECT) --- */
+        .hero-banner { 
+            height: 450px; /* Tinggi Banner */
+            position: relative;
+            overflow: hidden; /* Mengunci agar gambar tidak luber keluar */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Lapisan Gambar Latar Belakang (Bisa bergerak zoom & pan) */
+        .banner-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* SILAKAN GANTI LINK DI BAWAH INI DENGAN ALAMAT GAMBAR GOOGLE SITES ANDA */
+            background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            animation: zoomGerak 20s ease-in-out infinite alternate;
+        }
+
+        /* Lapisan Kegelapan (Overlay) agar teks kontras dan mudah dibaca */
+        .banner-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.8) 0%, rgba(30, 27, 75, 0.85) 100%);
+            z-index: 2;
+        }
+
+        /* Pembungkus Konten Teks di Atas Gambar */
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        /* LOGIKA ANIMASI GERAKAN GAMBAR */
+        @keyframes zoomGerak {
+            0% { transform: scale(1) translateX(0); }
+            100% { transform: scale(1.15) translateX(-2%); }
+        }
+
+        /* RUNNING TEXT SYSTEM */
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            margin-bottom: 35px;
+            padding: 10px 0;
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 50px; 
+            animation: jalanTerus 25s linear infinite; 
+        }
+
+        .marquee-item {
+            font-size: 1.4rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .marquee-item h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: inline;
+        }
+
+        .marquee-wrapper:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes jalanTerus {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } 
+        }
+
+        .btn-katalog { 
+            display: inline-block; 
+            padding: 14px 28px; 
+            background: white; 
+            color: #4f46e5; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .btn-katalog:hover { transform: scale(1.03); }
+
+        /* --- GRID PRODUK TERLARIS --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .section-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; }
+        .section-subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+        
+        .product-card { 
+            background: var(--card-bg); border-radius: var(--radius); overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; 
+            border: 1px solid #e2e8f0;
+        }
+        .product-image-container { width: 100%; height: 220px; overflow: hidden; background: #e2e8f0; }
+        .product-image-container img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-category { font-size: 0.75rem; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .product-title { font-size: 1.15rem; margin-bottom: 10px; font-weight: 600; color: var(--text-main); text-decoration: none; }
+        .product-price { font-size: 1.2rem; color: var(--primary); font-weight: bold; margin-top: auto; margin-bottom: 15px; }
+        
+        .btn-buy { display: block; text-align: center; text-decoration: none; background: var(--primary); color: white; padding: 12px; border-radius: 8px; font-weight: 600; }
+        .btn-buy:hover { opacity: 0.9; }
+        
+        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.9rem; margin-top: 60px; border-top: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">TokoKu.</a>
+            <ul class="nav-links">
+                <li><a href="index.html" style="color: var(--primary);">Beranda</a></li>
+                
+                <li class="dropdown">
+                    <a href="produk.html">Produk ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="produk.html?filter=all">Semua Produk</a></li>
+                        <li><a href="produk.html?filter=ready">Ready Stock</a></li>
+                        <li><a href="produk.html?filter=po">Pre-Order (PO)</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="tentang.html">Tentang Kami</a></li>
+                <li><a href="kontak.html">Kontak</a></li>
+                <li><a href="keranjang.html">🛒 Keranjang</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        
+        <div class="banner-bg"></div>
+        
+        <div class="banner-overlay"></div>
+
+        <div class="hero-content-wrapper">
+            <div class="marquee-wrapper">
+                <div class="marquee-content">
+                    <div class="marquee-item">
+                        <h1>Selamat Datang di TokoKu</h1>
+                        <span>✨ NEW: Premium Sambal Collections!</span>
+                        <span>🔥 Limited Edition Coffee Organic Blends!</span>
+                        <span>🚚 FREE Instant Delivery within Java!</span>
+                    </div>
+                    <div class="marquee-item">
+                        <h1>Selamat Datang di TokoKu</h1>
+                        <span>✨ NEW: Premium Sambal Collections!</span>
+                        <span>🔥 Limited Edition Coffee Organic Blends!</span>
+                        <span>🚚 FREE Instant Delivery within Java!</span>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="produk.html" class="btn-katalog">🛍️ Jelajahi Semua Produk - Klik untuk Memulai!</a>
+        </div>
+
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">🔥 Produk Terlaris Minggu Ini</h2>
+        <p class="section-subtitle">Koleksi item terpopuler pilihan pelanggan yang paling banyak dicari.</p>
+        
+        <div class="products-grid" id="bestsellerGrid">
+            <p style="text-align: center; color: var(--text-muted); grid-column: 1/-1; padding: 40px 0;">Menghubungkan ke database Google Sheets...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TokoKu. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // === GANTI DENGAN URL API WEB APP HASIL DEPLOY APPS SCRIPT ANDA ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbzfAYp8DeJ_1w6gMqgta_QiXcQsc7sdTo7JHKVxBLrNGSo6VqTRdID3PYslBXG6kVAG0g/exec"; 
+
+        async function fetchBestsellerProducts() {
+            try {
+                const response = await fetch(API_URL);
+                const products = await response.json();
+                
+                // Menyaring produk bersub-status 'terlaris' atau 'terlaris-po'
+                const bestsellerItems = products.filter(p => 
+                    p.status.toLowerCase() === 'terlaris' || p.status.toLowerCase() === 'terlaris-po'
+                );
+                renderBestsellers(bestsellerItems);
+            } catch (error) {
+                console.error("Gagal mengambil data:", error);
+                document.getElementById('bestsellerGrid').innerHTML = `<p style="grid-column:1/-1; text-align:center; color:red;">Gagal memuat produk. Periksa kembali link API_URL Anda.</p>`;
+            }
+        }
+
+        function renderBestsellers(products) {
+            const grid = document.getElementById('bestsellerGrid');
+            if (products.length === 0) {
+                grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Belum ada produk terlaris yang ditandai di Admin Panel.</p>`;
+                return;
+            }
+
+            grid.innerHTML = products.map(p => {
+                const apakahPO = p.status.toLowerCase() === 'terlaris-po';
+                const labelKategori = apakahPO ? '⭐ Terlaris (PO)' : '⭐ Terlaris';
+                const warnaLabel = apakahPO ? '#f97316' : '#ef4444';
+
+                return `
+                    <div class="product-card">
+                        <a href="detail-produk.html?id=${p.id}" style="text-decoration: none; color: inherit;">
+                            <div class="product-image-container">
+                                <img src="${p.gambar}" alt="${p.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+Tidak+Valid'">
+                            </div>
+                            <div class="product-info">
+                                <span class="product-category" style="color: ${warnaLabel};">${labelKategori}</span>
+                                <h3 class="product-title">${p.nama}</h3>
+                                <div class="product-price">Rp ${parseInt(p.harga).toLocaleString('id-ID')}</div>
+                            </div>
+                        </a>
+                        <div style="padding: 0 20px 20px 20px; margin-top: auto;">
+                            <a href="detail-produk.html?id=${p.id}" class="btn-buy">Lihat Detail</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        fetchBestsellerProducts();
+    </script>
+</body>
+</html>
