@@ -5,197 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katalog Produk - TokoKu</title>
     <style>
-        /* --- VARIABLE CSS (Konsisten dengan halaman lain) --- */
+        /* --- VARIABLE STYLING UTAMA --- */
         :root {
-            --primary-color: #3b82f6;      
-            --secondary-color: #1e3a8a;    
-            --background-color: #f8fafc;   
-            --card-background: #ffffff;    
-            --text-color: #1e293b;         
-            --text-light: #64748b;         
-            --border-radius: 12px;         
+            --primary: #4f46e5;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --radius: 12px;
         }
 
-        [data-theme="dark"] {
-            --background-color: #0f172a;
-            --card-background: #1e293b;
-            --text-color: #f8fafc;
-            --text-light: #94a3b8;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--background); color: var(--text-main); line-height: 1.6; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        /* --- NAVBAR & DROPDOWN --- */
+        header { background-color: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 18px 20px; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        
+        .nav-links { display: flex; list-style: none; gap: 24px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; display: block; }
+        .nav-links a:hover, .dropdown:hover > a { color: var(--primary); }
 
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        /* --- PANEL KUSTOMISASI --- */
-        .customizer {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--card-background);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            z-index: 1000;
-            border: 1px solid var(--text-light);
-            max-width: 250px;
-        }
-        .customizer h4 { margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; }
-        .control-group { margin-bottom: 12px; }
-        .control-group label { display: block; font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; }
-        .customizer input[type="color"] { width: 100%; height: 35px; border: none; border-radius: 6px; cursor: pointer; }
-        .btn-theme { width: 100%; padding: 8px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-
-        /* --- HEADER & NAVIGATION --- */
-        header {
-            background-color: var(--card-background);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 900;
-        }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; }
-        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
-        .nav-links a:hover { color: var(--primary-color); }
-
-        /* --- DROPDOWN SUB-MENU --- */
         .dropdown { position: relative; }
         .dropdown-menu {
-            position: absolute; top: 100%; left: 0; background-color: var(--card-background); min-width: 200px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-radius: 8px; list-style: none; padding: 10px 0; margin-top: 10px;
-            opacity: 0; pointer-events: none; transform: translateY(-10px); transition: opacity 0.3s, transform 0.3s; z-index: 1000;
+            position: absolute; top: 100%; left: 0; background-color: var(--card-bg); min-width: 180px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-radius: 8px; list-style: none; padding: 8px 0;
+            opacity: 0; pointer-events: none; transform: translateY(-10px); transition: opacity 0.2s, transform 0.2s; z-index: 1000;
         }
-        .dropdown-menu li a { display: block; padding: 10px 20px; color: var(--text-color); text-decoration: none; }
-        .dropdown-menu li a:hover { background-color: rgba(0, 0, 0, 0.05); color: var(--primary-color); }
+        .dropdown-menu li a { padding: 10px 16px; font-weight: 500; font-size: 0.9rem; }
+        .dropdown-menu li a:hover { background-color: #f1f5f9; color: var(--primary); }
+        .dropdown-menu::before { content: ""; position: absolute; top: -15px; left: 0; width: 100%; height: 15px; background: transparent; }
         .dropdown:hover .dropdown-menu { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        /* --- FILTER & SEARCH BAR SECTION --- */
-        .filter-section {
-            max-width: 1200px;
-            margin: 30px auto 10px;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+        /* --- LAYOUT UTAMA --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Area Filter Batang Samping/Atas */
+        .filter-zone { display: flex; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; }
+        .btn-filter { 
+            padding: 10px 20px; border: 1px solid #cbd5e1; background: white; 
+            color: var(--text-main); font-weight: 600; border-radius: 8px; cursor: pointer; font-size: 0.9rem;
         }
+        .btn-filter.active { background-color: var(--primary); color: white; border-color: var(--primary); }
 
-        .search-box {
-            padding: 10px 15px;
-            width: 300px;
-            border-radius: 8px;
-            border: 1px solid var(--text-light);
-            background-color: var(--card-background);
-            color: var(--text-color);
-            outline: none;
-        }
-        .search-box:focus { border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
-
-        .filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-filter {
-            padding: 8px 16px; background-color: var(--card-background); color: var(--text-color);
-            border: 1px solid var(--text-light); border-radius: 20px; cursor: pointer; font-weight: 500;
-        }
-        .btn-filter.active, .btn-filter:hover { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
-
-        /* --- PRODUCT GRID --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 60vh; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+        /* --- GRID KATALOG PRODUK --- */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
         
         .product-card { 
-            background-color: var(--card-background); border-radius: var(--border-radius); 
-            overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; 
+            background: var(--card-bg); border-radius: var(--radius); overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; 
+            border: 1px solid #e2e8f0; transition: transform 0.2s;
         }
-        .product-card.hidden { display: none; }
-
+        .product-card:hover { transform: translateY(-4px); }
+        
         .product-image-container { width: 100%; height: 220px; overflow: hidden; background: #e2e8f0; }
         .product-image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .product-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-category { font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); letter-spacing: 1px; margin-bottom: 5px; }
-        .product-title { font-size: 1.2rem; margin-bottom: 10px; font-weight: 600; }
-        .product-price { font-size: 1.2rem; color: var(--primary-color); font-weight: bold; margin-bottom: 15px; margin-top: auto; }
         
-        .btn-buy { 
-            display: inline-block; width: 100%; padding: 12px; background-color: var(--primary-color); 
-            color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; 
-            text-align: center; text-decoration: none; 
-        }
-        .btn-buy:hover { opacity: 0.9; }
-
-        /* --- FOOTER --- */
-        footer { background-color: var(--card-background); text-align: center; padding: 40px 20px; margin-top: 60px; color: var(--text-light); }
-
-        @media (max-width: 768px) {
-            .customizer { position: static; max-width: 100%; margin: 20px; }
-            .navbar { flex-direction: column; gap: 15px; }
-            .filter-section { flex-direction: column; align-items: stretch; }
-            .search-box { width: 100%; }
-        }
-        /* TARUH DI BAGIAN BAWAH STYLE CSS PRODUK.HTML */
-.dropdown-menu::before {
-    content: "";
-    position: absolute;
-    top: -15px; /* Membuat jembatan gaib setinggi 15 piksel ke atas */
-    left: 0;
-    width: 100%;
-    height: 15px;
-    background: transparent; /* Tidak terlihat oleh pembeli */
-}
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-category { font-size: 0.75rem; text-transform: uppercase; font-weight: bold; color: var(--text-muted); margin-bottom: 5px; }
+        .product-title { font-size: 1.15rem; margin-bottom: 10px; font-weight: 600; color: var(--text-main); text-decoration: none; }
+        .product-price { font-size: 1.2rem; color: var(--primary); font-weight: bold; margin-top: auto; margin-bottom: 15px; }
+        
+        .btn-buy { display: block; text-align: center; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+        
+        footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.9rem; margin-top: 60px; border-top: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
-
-    <!-- HEADER / NAVIGATION -->
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">TokoKu.</a>
             <ul class="nav-links">
                 <li><a href="index.html">Beranda</a></li>
+                
                 <li class="dropdown">
-                    <a href="produk.html" class="dropdown-toggle" style="color: var(--primary-color); font-weight: bold;">Produk ▾</a>
+                    <a href="produk.html" style="color: var(--primary);">Produk ▾</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick="filterCategory('makanan')">Makanan & Camilan</a></li>
-                        <li><a href="#" onclick="filterCategory('pakaian')">Pakaian & Gaya</a></li>
-                        <li><a href="#" onclick="filterCategory('elektronik')">Elektronik</a></li>
+                        <li><a href="produk.html?filter=all">Semua Produk</a></li>
+                        <li><a href="produk.html?filter=ready">Ready Stock</a></li>
+                        <li><a href="produk.html?filter=po">Pre-Order (PO)</a></li>
                     </ul>
                 </li>
+                
                 <li><a href="tentang.html">Tentang Kami</a></li>
                 <li><a href="kontak.html">Kontak</a></li>
-                <li><a href="keranjang.html" style="font-weight: bold;">🛒 Keranjang (<span class="cart-count">0</span>)</a></li>
+                <li><a href="keranjang.html">🛒 Keranjang</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- PILIHAN FILTER & PENCARIAN -->
-    <section class="filter-section">
-        <div class="filter-buttons">
-            <button class="btn-filter active" onclick="filterCategory('all')">Semua</button>
-            <button class="btn-filter" onclick="filterCategory('makanan')">Makanan</button>
-            <button class="btn-filter" onclick="filterCategory('pakaian')">Pakaian</button>
-            <button class="btn-filter" onclick="filterCategory('elektronik')">Elektronik</button>
-        </div>
-        <input type="text" id="searchProduct" class="search-box" placeholder="Cari produk di sini..." onkeyup="searchProducts()">
-    </section>
-
-    <!-- KATALOG PRODUK DINAMIS -->
     <main class="container">
-        <!-- Wadah Grid Kosong yang akan diisi oleh Google Sheets -->
+        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 5px;">Katalog Komoditas</h1>
+        <p style="color: var(--text-muted); margin-bottom: 25px;">Pilih dan temukan produk terbaik kebutuhan Anda secara praktis.</p>
+
+        <div class="filter-zone" id="filterButtonsArea">
+            <button class="btn-filter active" onclick="filterKategoriKlik('all', this)">📦 Semua</button>
+            <button class="btn-filter" onclick="filterKategoriKlik('makanan', this)">🍔 Makanan</button>
+            <button class="btn-filter" onclick="filterKategoriKlik('pakaian', this)">👕 Pakaian</button>
+            <button class="btn-filter" onclick="filterKategoriKlik('elektronik', this)">⚡ Elektronik</button>
+        </div>
+
         <div class="products-grid" id="productGrid">
-            <p style="text-align: center; grid-column: 1/-1; color: var(--text-light);">Menghubungkan ke database Google Sheets...</p>
+            <p style="text-align: center; color: var(--text-muted); grid-column: 1/-1; padding: 40px 0;">Menghubungkan ke database cloud Google Sheets...</p>
         </div>
     </main>
 
@@ -203,176 +116,123 @@
         <p>&copy; 2026 TokoKu. All rights reserved.</p>
     </footer>
 
-    <!-- KODE JAVASCRIPT DINAMIS API -->
     <script>
-        // === PASTE LINK WEB APP HASIL DEPLOY APPS SCRIPT ANDA DI SINI ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbzfAYp8DeJ_1w6gMqgta_QiXcQsc7sdTo7JHKVxBLrNGSo6VqTRdID3PYslBXG6kVAG0g/exec"; 
-
-        // Variabel global penampung database lokal sementara
-        let allProductsData = [];
-
-        // --- SISTEM TEMA & KUSTOMISASI WARNA ---
-        const root = document.documentElement;
-        const primaryPicker = document.getElementById('primaryColorPicker');
-        const secondaryPicker = document.getElementById('secondaryColorPicker');
-        const themeToggle = document.getElementById('themeToggle');
-
-        primaryPicker.addEventListener('input', (e) => root.style.setProperty('--primary-color', e.target.value));
-        secondaryPicker.addEventListener('input', (e) => root.style.setProperty('--secondary-color', e.target.value));
+        // === URL API WEB APP GOOGLE APPS SCRIPT ANDA ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbzWywnUXe0r4f2Xb3QHv-jwilcAwdWljSQfTxDhOlUYNRb45Y8OnuOxjokWorzbYaIPvw/exec"; 
         
-        themeToggle.addEventListener('click', () => {
-            if (root.getAttribute('data-theme') === 'dark') {
-                root.removeAttribute('data-theme');
-                themeToggle.innerText = 'Mode Gelap';
-            } else {
-                root.setAttribute('data-theme', 'dark');
-                themeToggle.innerText = 'Mode Terang';
-            }
-        });
+        let masterProductsData = []; // Menyimpan master data produk global
 
-        // --- AMBIL DATA DARI GOOGLE SHEETS ---
-        async function fetchProductsFromSheets() {
+        async function loadProductsData() {
+            const grid = document.getElementById('productGrid');
+            
             try {
                 const response = await fetch(API_URL);
-                allProductsData = await response.json();
-                renderProducts(allProductsData);
+                masterProductsData = await response.json();
+                
+                // Cek parameter filter tautan dari halaman beranda (Ready / PO / All)
+                const urlParams = new URLSearchParams(window.location.search);
+                const linkFilter = urlParams.get('filter');
+
+                if (linkFilter === 'ready') {
+                    // Jika diklik lewat sub-dropdown 'Ready Stock'
+                    const readyItems = masterProductsData.filter(p => p.status && p.status.toLowerCase() === 'ready');
+                    renderProducts(readyItems);
+                } else if (linkFilter === 'po') {
+                    // Jika diklik lewat sub-dropdown 'Pre-Order'
+                    const poItems = masterProductsData.filter(p => p.status && p.status.toLowerCase().includes('po'));
+                    renderProducts(poItems);
+                } else {
+                    // Default menampilkan semua
+                    renderProducts(masterProductsData);
+                }
+
             } catch (error) {
-                console.error("Gagal memuat produk:", error);
-                document.getElementById('productGrid').innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: red;">Gagal mengambil data dari Google Sheets. Periksa kembali Web App URL Anda.</p>`;
+                console.error("Gagal mengambil data katalog:", error);
+                grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:red;">Gagal memuat katalog produk.</p>`;
             }
         }
-        async function loadProductsData() {
-    // Cek apakah data sudah ada di cache browser
-    const cachedData = sessionStorage.getItem('products_cache');
-    if (cachedData) {
-        renderProducts(JSON.parse(cachedData));
-        return;
-    }
 
-    try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        // Simpan ke cache agar kunjungan berikutnya instan
-        sessionStorage.setItem('products_cache', JSON.stringify(data));
-        renderProducts(data);
-    } catch (error) {
-        console.error(error);
-    }
-}
+        function renderProducts(products) {
+            const grid = document.getElementById('productGrid');
+            if (products.length === 0) {
+                grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Tidak ada produk yang cocok dengan kategori ini.</p>`;
+                return;
+            }
 
-        // --- ARSITEKTUR KARTU PRODUK OTOMATIS ---
-// CARI FUNGSI INI DI DALAM TAG <script> PADA FILE produk.html DAN GANTI TOTAL:
+            grid.innerHTML = products.map(p => {
+                const statusSkarang = p.status ? p.status.toLowerCase() : '';
+                
+                // LOGIKA IDENTIFIKASI ACUAN STATUS DATABASE GOOGLE SHEETS
+                let badgeStyle = "";
+                let badgeText = "";
+                let buttonText = "Lihat Detail & Beli"; 
+                let buttonStyle = "background-color: var(--primary); color: white;"; 
 
-function renderProducts(products) {
-    const grid = document.getElementById('productGrid');
-    
-    if(products.length === 0) {
-        grid.innerHTML = `<p style="text-align: center; grid-column: 1/-1;">Belum ada produk terdaftar di Google Sheets.</p>`;
-        return;
-    }
+                if (statusSkarang === 'po' || statusSkarang === 'terlaris-po') {
+                    // Jika Produk diset Pre-Order (PO)
+                    badgeStyle = "background-color: #ffedd5; color: #c2410c; border: 1px solid #fed7aa;";
+                    badgeText = statusSkarang === 'terlaris-po' ? "🔥 PO TERLARIS" : "⏳ PRE-ORDER (PO)";
+                    buttonText = "Pesan Pre-Order (PO)";
+                    buttonStyle = "background-color: #eab308; color: white;"; // Tombol berubah warna oranye hangat
+                } else if (statusSkarang === 'terlaris') {
+                    // Jika Produk diset Terlaris (Ready)
+                    badgeStyle = "background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca;";
+                    badgeText = "🔥 TERLARIS";
+                } else {
+                    // Jika Produk diset Ready biasa
+                    badgeStyle = "background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0;";
+                    badgeText = "✅ READY STOCK";
+                }
 
-    grid.innerHTML = products.map(p => {
-        // 1. STANDARDISASI HURUF KECIL AGAR COCOK DENGAN GOOGLE SHEETS
-        const statusSkarang = p.status.toLowerCase();
-        
-        // 2. LOGIKA MATRIKS UNTUK MEMBEDAKAN WARNA BADGE & TEKS TOMBOL
-        let badgeStyle = "";
-        let badgeText = "";
-        let buttonText = "Lihat Detail & Beli"; // Default untuk produk ready
-        let buttonStyle = "background-color: var(--primary-color);"; // Warna biru default
+                const hargaNominal = parseInt(p.harga) || 0;
 
-        if (statusSkarang === 'po' || statusSkarang === 'terlaris-po') {
-            // Jika produk di Google Sheets diset PO atau Terlaris-PO
-            badgeStyle = "background-color: #ffedd5; color: #c2410c; border: 1px solid #fed7aa;";
-            badgeText = statusSkarang === 'terlaris-po' ? "🔥 PO TERLARIS" : "⏳ PRE-ORDER (PO)";
-            buttonText = "Pesan Pre-Order (PO)";
-            buttonStyle = "background-color: #eab308; color: white;"; // Ubah tombol jadi kuning oranye
-        } else if (statusSkarang === 'terlaris') {
-            // Jika produk diset Terlaris biasa (Ready)
-            badgeStyle = "background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca;";
-            badgeText = "🔥 TERLARIS";
-        } else {
-            // Jika produk diset Ready stock biasa
-            badgeStyle = "background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0;";
-            badgeText = "✅ READY STOCK";
-        }
-
-        // 3. RENDER KARTU PRODUK DENGAN PERBEDAAN VISUAL AKTIF
-        return `
-            <div class="product-card" data-category="${p.kategori.toLowerCase()}">
-                <a href="detail-produk.html?id=${p.id}" style="text-decoration: none; color: inherit;">
-                    <div class="product-image-container">
-                        <img src="${p.gambar}" alt="${p.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+Tidak+Valid'">
-                    </div>
-                    <div class="product-info">
-                        <div style="margin-bottom: 8px;">
-                            <span class="product-category" style="font-size:0.8rem;">${p.kategori}</span>
-                            <span style="padding: 3px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 5px; ${badgeStyle}">
-                                ${badgeText}
-                            </span>
+                return `
+                    <div class="product-card">
+                        <a href="detail-produk.html?id=${p.id}" style="text-decoration: none; color: inherit;">
+                            <div class="product-image-container">
+                                <img src="${p.gambar || 'https://placehold.co/600x400?text=Tanpa+Foto'}" alt="${p.nama}" onerror="this.src='https://placehold.co/600x400?text=Foto+Tidak+Valid'">
+                            </div>
+                            <div class="product-info">
+                                <div style="margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                                    <span class="product-category">${p.kategori || 'umum'}</span>
+                                    <span style="padding: 2px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: bold; ${badgeStyle}">
+                                        ${badgeText}
+                                    </span>
+                                </div>
+                                <h3 class="product-title">${p.nama || 'Produk Tanpa Nama'}</h3>
+                                <div class="product-price">Rp ${hargaNominal.toLocaleString('id-ID')}</div>
+                            </div>
+                        </a>
+                        <div style="padding: 0 20px 20px 20px;">
+                            <a href="detail-produk.html?id=${p.id}" class="btn-buy" style="${buttonStyle}">
+                                ${buttonText}
+                            </a>
                         </div>
-                        
-                        <h3 class="product-title">${p.nama}</h3>
-                        <div class="product-price">Rp ${parseInt(p.harga).toLocaleString('id-ID')}</div>
                     </div>
-                </a>
-                <div style="padding: 0 20px 20px 20px;">
-                    <a href="detail-produk.html?id=${p.id}" class="btn-buy" style="display:block; text-align:center; ${buttonStyle}">
-                        ${buttonText}
-                    </a>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-        // --- FILTER KATEGORI INSTAN ---
-        function filterCategory(category) {
-            const buttons = document.querySelectorAll('.btn-filter');
-            buttons.forEach(btn => {
-                if(btn.innerText.toLowerCase() === category || (category === 'all' && btn.innerText === 'Semua')) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                const cardCat = card.getAttribute('data-category');
-                if (category === 'all' || cardCat === category) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+                `;
+            }).join('');
         }
 
-        // --- SISTEM PENCARIAN TEKS LIVE ---
-        function searchProducts() {
-            const searchInput = document.getElementById('searchProduct').value.toLowerCase();
-            const cards = document.querySelectorAll('.product-card');
+        // FUNGSI FILTER KLIK TOMBOL KATEGORI
+        function filterKategoriKlik(kategoriTarget, tombolIni) {
+            // Ubah status aktif tombol filter visual
+            const semuaTombol = document.querySelectorAll('.btn-filter');
+            semuaTombol.forEach(btn => btn.classList.remove('active'));
+            tombolIni.classList.add('active');
 
-            cards.forEach(card => {
-                const title = card.querySelector('.product-title').innerText.toLowerCase();
-                if (title.includes(searchInput)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+            // Jalankan filter array internal javascript tanpa menembak server sheets lagi (sangat cepat)
+            if (kategoriTarget === 'all') {
+                renderProducts(masterProductsData);
+            } else {
+                const dataHasilSaring = masterProductsData.filter(p => 
+                    p.kategori && p.kategori.toLowerCase() === kategoriTarget.toLowerCase()
+                );
+                renderProducts(dataHasilSaring);
+            }
         }
 
-        // Sinkronisasi badge total belanjaan di navbar atas
-        function updateCartBadge() {
-            let cart = JSON.parse(localStorage.getItem('tokoku_cart')) || [];
-            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.querySelector('.cart-count').innerText = total;
-        }
-
-        // Jalankan inisialisasi awal
-        fetchProductsFromSheets();
-        updateCartBadge();
+        // Jalankan perintah fetch data saat pertama kali halaman terbuka
+        loadProductsData();
     </script>
 </body>
 </html>

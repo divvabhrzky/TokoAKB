@@ -8,86 +8,86 @@
     <style>
         :root {
             --primary: #4f46e5;
-            --success: #10b981;
-            --danger: #ef4444;
-            --bg-page: #f1f5f9;
-            --bg-card: #ffffff;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --radius: 12px;
+            --danger: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--bg-page); color: var(--text-main); padding-bottom: 60px; }
+        body { background-color: var(--background); color: var(--text-main); line-height: 1.6; padding-bottom: 60px; }
 
-        /* --- NAVBAR --- */
-        header { background-color: var(--bg-card); box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 15px 20px; }
-        .logo { font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; }
-        .nav-links { display: flex; list-style: none; gap: 20px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 0.95rem; }
-        .cart-badge-nav { background: #e2e8f0; padding: 8px 16px; border-radius: 20px; font-weight: 600; }
+        /* --- NAVBAR & DROPDOWN --- */
+        header { background-color: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 18px 20px; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 24px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; }
 
-        /* --- LAYOUT UTAMA (TWO COLUMN) --- */
-        .container { max-width: 1400px; margin: 30px auto; padding: 0 20px; }
-        .page-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 25px; }
+        /* --- LAYOUT DUA KOLOM --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .cart-layout { display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; }
+
+        @media (max-width: 992px) {
+            .cart-layout { grid-template-columns: 1fr; }
+        }
+
+        /* --- SISI KIRI: DAFTAR BARANG --- */
+        .cart-items-section { background-color: var(--card-bg); padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .cart-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid #f1f5f9; align-items: center; }
+        .cart-item:last-child { border-bottom: none; }
+        .item-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+        .item-details { flex-grow: 1; }
+        .item-name { font-size: 1.05rem; font-weight: 600; }
+        .item-price { font-size: 0.95rem; color: var(--primary); font-weight: bold; }
         
-        .cart-grid { display: grid; grid-template-columns: 1fr 380px; gap: 25px; align-items: start; }
+        .quantity-control { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+        .btn-qty { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #cbd5e1; background: white; cursor: pointer; font-weight: bold; }
+        .btn-delete { background: none; border: none; color: var(--danger); cursor: pointer; font-weight: 600; margin-left: auto; }
 
-        /* SISI KIRI: GRID CARD PRODUK (PERSIS GAMBAR) */
-        .cart-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        
-        .product-item-card {
-            background-color: var(--bg-card); padding: 15px; border-radius: var(--radius);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; position: relative;
+        /* --- SISI KANAN: STRUK NOTA FISIK (ELEMEN YANG AKAN DIJADIKAN FOTO) --- */
+        .receipt-container {
+            background-color: #ffffff;
+            border-radius: 0; /* Membuat potongan lurus ala kertas kasir */
+            padding: 30px 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #cbd5e1;
+            position: relative;
+            background-image: radial-gradient(circle at bottom, transparent 10px, #ffffff 10px);
+            background-size: 20px 20px;
         }
         
-        .item-image-wrapper { width: 100%; height: 160px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background: #e2e8f0; }
-        .item-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .item-details h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .item-details .price { color: var(--text-main); font-weight: 700; font-size: 1rem; margin-bottom: 15px; }
-        
-        .item-card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-        
-        /* Pengatur Jumlah Kuantitas */
-        .qty-controls { display: flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 6px; padding: 2px; }
-        .btn-qty { width: 28px; height: 28px; background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-muted); }
-        .btn-qty:hover { color: var(--primary); }
-        .qty-number { font-weight: 600; padding: 0 12px; font-size: 0.95rem; }
-        
-        /* Tombol Hapus */
-        .btn-delete { background-color: var(--danger); border: none; color: white; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .btn-delete:hover { opacity: 0.9; }
+        /* Gerigi Kertas Nota Kasir Efek Bawah */
+        .receipt-container::after {
+            content: "";
+            position: absolute;
+            left: 0; bottom: -10px; width: 100%; height: 100px;
+            /* Membuat pola potongan robekan kertas kasir zig-zag */
+            background-image: linear-gradient(135deg, #ffffff 4px, transparent 4px), linear-gradient(-135deg, #ffffff 4px, transparent 4px);
+            background-size: 8px 8px;
+            background-repeat: repeat-x;
+        }
 
-        /* SISI KANAN: PANEL CHECKOUT & STRUK NOTA KASIR */
-        .summary-section { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
-        .card-panel { background-color: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .receipt-header { text-align: center; margin-bottom: 20px; }
+        .receipt-logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: 1px; }
+        .receipt-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
         
-        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 5px; }
-        .panel-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; }
+        .receipt-divider { border-top: 2px dashed #94a3b8; margin: 15px 0; }
         
-        .form-textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; color: var(--text-main); outline: none; font-size: 0.9rem; resize: none; background: #fff; }
-        .form-textarea:focus { border-color: var(--primary); }
-
-        /* DESAIN PREVIEW STRUK NOTA (PUTIH BERGARIS DASHED) */
-        #notaGambarArea { background: #ffffff !important; color: #000000 !important; padding: 25px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .nota-title { text-align: center; font-size: 1.6rem; font-weight: 800; margin-bottom: 2px; }
-        .nota-subtitle { text-align: center; font-size: 0.8rem; color: #555; margin-bottom: 8px; }
-        .nota-divider { border-top: 1px dashed #000; margin: 8px 0; }
-        .nota-time { font-size: 0.8rem; color: #333; margin-bottom: 8px; }
+        .receipt-table { width: 100%; font-size: 0.9rem; border-collapse: collapse; }
+        .receipt-table td { padding: 6px 0; vertical-align: top; }
         
-        .nota-table { width: 100%; font-size: 0.85rem; border-collapse: collapse; }
-        .nota-table td { padding: 4px 0; vertical-align: top; }
+        .r-total-row { font-size: 1.1rem; font-weight: 800; color: #000; }
         
-        .nota-section-label { font-size: 0.85rem; font-weight: bold; margin-top: 8px; }
-        .nota-address-text { font-size: 0.8rem; color: #444; line-height: 1.3; font-style: italic; white-space: pre-line; }
-
-        /* TOMBOL HIJAU WHATSAPP UTAMA */
-        .btn-checkout-wa { width: 100%; padding: 14px; background-color: #15803d; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21, 128, 61, 0.2); }
-        .btn-checkout-wa:hover { opacity: 0.95; }
-
-        .empty-state { text-align: center; padding: 50px 20px; background: var(--bg-card); border-radius: var(--radius); grid-column: 1/-1; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        /* Tombol Trigger Download + Kirim */
+        .btn-checkout {
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); color: #ffffff; border: none;
+            border-radius: 12px; font-size: 1.05rem; font-weight: 700; cursor: pointer; margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -97,228 +97,163 @@
             <a href="index.html" class="logo">TokoKu.</a>
             <ul class="nav-links">
                 <li><a href="index.html">Beranda</a></li>
-                <li><a href="produk.html">Produk</a></li>
-                <li><a href="tentang.html">Tentang Kami</a></li>
-                <li><a href="kontak.html">Kontak</a></li>
-                <li class="cart-badge-nav">Keranjang (<span id="navCount">0</span>)</li>
+                <li><a href="produk.html">Katalog Produk</a></li>
+                <li><a href="keranjang.html" style="color: var(--primary);">🛒 Keranjang</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="container">
-        <h1 class="page-title" id="pageTitleLabel">Keranjang Belanja</h1>
+        <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 25px;">Keranjang Belanja</h1>
         
-        <div class="cart-grid" id="mainCartGrid">
-            
-            <div class="cart-items-grid" id="cartItemsContainer">
-                </div>
-
-            <div class="summary-section">
-                <div class="card-panel">
-                    <h2 class="panel-title">Summary & Checkout</h2>
-                    <p class="panel-subtitle">Informasi Pengiriman</p>
-                    <textarea id="inputAlamatKirim" class="form-textarea" rows="3" placeholder="Alamat Tujuan Pengiriman Lengkap" onkeyup="sinkronAlamat()"></textarea>
-                </div>
-
-                <div id="notaGambarArea">
-                    <div class="nota-title">TokoKu.</div>
-                    <div class="nota-subtitle">Nota Pembelian Digital</div>
-                    <div class="nota-divider"></div>
-                    <div id="notaDate" class="nota-time">11/03/2026, 12:08:06</div>
-                    <div class="nota-divider"></div>
-                    
-                    <table class="nota-table" id="notaItemsTable">
-                        </table>
-                    
-                    <div id="areaAlamatNota" style="display: none;">
-                        <div class="nota-divider"></div>
-                        <div class="nota-section-label">nota-alamat</div>
-                        <div class="nota-section-label">Alamat Kirim: <span id="teksAlamatNota" class="nota-address-text"></span></div>
-                    </div>
-
-                    <div class="nota-divider"></div>
-                    <div class="nota-section-label">nota-total</div>
-                    <table class="nota-table" style="font-size: 1.1rem; font-weight: 800;">
-                        <tr>
-                            <td>Total Bayar:</td>
-                            <td style="text-align: right; color: #000;" id="totalPriceLabel">Rp 0</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <button onclick="prosesCheckoutPremium()" class="btn-checkout-wa">
-                    
-                    <span style="font-size: 0.8rem; font-weight: normal; opacity: 0.9;">📸 Buat Gambar Nota & Kirim ke WA</span>
-                </button>
+        <div class="cart-layout">
+            <div class="cart-items-section" id="cartItemsList">
+                <p style="text-align: center; color: var(--text-muted); padding: 20px 0;">Memuat isi keranjang...</p>
             </div>
 
+            <div>
+                <div class="receipt-container" id="notaFisikKotak">
+                    <div class="receipt-header">
+                        <div class="receipt-logo">TOKOKU RECEIPT</div>
+                        <p class="receipt-meta" id="notaTanggal">Tanggal: --/--/----</p>
+                        <p class="receipt-meta" id="notaID">No. Nota: #TOKOKU-00000</p>
+                    </div>
+                    
+                    <div class="receipt-divider"></div>
+                    
+                    <table class="receipt-table">
+                        <tbody id="notaItemsBody">
+                            </tbody>
+                    </table>
+                    
+                    <div class="receipt-divider"></div>
+                    
+                    <table class="receipt-table">
+                        <tr>
+                            <td style="color: var(--text-muted);">Biaya Pengemasan:</td>
+                            <td style="text-align: right; color: #10b981; font-weight: 600;">FREE</td>
+                        </tr>
+                        <tr class="r-total-row">
+                            <td style="padding-top: 10px;">TOTAL BAYAR:</td>
+                            <td style="text-align: right; padding-top: 10px; color: var(--primary);" id="notaTotalHarga">Rp 0</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="receipt-divider"></div>
+                    <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); font-style: italic;">Terima kasih telah berbelanja di TokoKu!</p>
+                </div>
+
+                <button class="btn-checkout" onclick="generateNotaFotoDanKirim()">
+                    📸 Unduh Foto Nota & Kirim ke WA
+                </button>
+            </div>
         </div>
     </main>
 
     <script>
-        let cart = JSON.parse(localStorage.getItem('tokoku_cart')) || [];
+        const WHATSAPP_ADMIN = "6281234567890"; // <-- GANTI NOMOR WA ANDA DI SINI
 
-        // Mengatur teks waktu nota secara real-time saat ini
-        const waktuSkarang = new Date();
-        document.getElementById('notaDate').innerText = waktuSkarang.getDate().toString().padStart(2, '0') + '/' + 
-            (waktuSkarang.getMonth() + 1).toString().padStart(2, '0') + '/' + 
-            waktuSkarang.getFullYear() + ', ' + 
-            waktuSkarang.getHours().toString().padStart(2, '0') + ':' + 
-            waktuSkarang.getMinutes().toString().padStart(2, '0') + ':' + 
-            waktuSkarang.getSeconds().toString().padStart(2, '0');
+        function formatTanggal() {
+            const tgl = new Date();
+            return `${tgl.getDate()}/${tgl.getMonth()+1}/${tgl.getFullYear()} ${tgl.getHours()}:${tgl.getMinutes()} WIB`;
+        }
 
-        function renderCartContent() {
-            const containerGrid = document.getElementById('cartItemsContainer');
-            const tableNota = document.getElementById('notaItemsTable');
-            const labelTotal = document.getElementById('totalPriceLabel');
-            const mainGrid = document.getElementById('mainCartGrid');
-            const navCount = document.getElementById('navCount');
-            const pageTitleLabel = document.getElementById('pageTitleLabel');
+        function loadCartData() {
+            const container = document.getElementById('cartItemsList');
+            const notaBody = document.getElementById('notaItemsBody');
+            const cart = JSON.parse(localStorage.getItem('tokoku_cart')) || [];
 
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            navCount.innerText = totalItems;
-            pageTitleLabel.innerText = `Keranjang Belanja (${totalItems} items)`;
+            // Set Tanggal dan ID Nota Unik Acak
+            document.getElementById('notaTanggal').innerText = "Tanggal: " + formatTanggal();
+            if(!sessionStorage.getItem('nota_random_id')) {
+                sessionStorage.setItem('nota_random_id', Math.floor(100000 + Math.random() * 900000));
+            }
+            document.getElementById('notaID').innerText = "No. Nota: #TK-" + sessionStorage.getItem('nota_random_id');
 
             if (cart.length === 0) {
-                mainGrid.innerHTML = `
-                    <div class="empty-state">
-                        <h2 style="margin-bottom: 10px;">Keranjang Belanja Anda Kosong</h2>
-                        <p style="color: var(--text-muted); margin-bottom: 20px;">Anda belum menambahkan produk apa pun ke keranjang.</p>
-                        <a href="produk.html" style="display:inline-block; padding:10px 20px; background:var(--primary); color:white; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9rem;">Kembali Ke Produk</a>
-                    </div>
-                `;
+                container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 40px 0;">Keranjang kosong.</p>`;
+                notaBody.innerHTML = `<tr><td colspan="2" style="text-align:center;color:gray;">Tidak ada produk</td></tr>`;
+                document.getElementById('notaTotalHarga').innerText = "Rp 0";
                 return;
             }
 
-            let gridHtml = '';
-            let notaTableHtml = '';
-            let totalBiaya = 0;
-
-            cart.forEach((item, index) => {
-                const subtotal = item.price * item.quantity;
-                totalBiaya += subtotal;
-
-                // Mengatur agar jika link gambar tidak sengaja kosong, diberikan gambar cadangan (placeholder)
-                const gambarProduk = item.gambar ? item.gambar : 'https://placehold.co/300x200?text=No+Image';
-
-                // 1. ISI GRID CARD DI SISI KIRI (DENGAN ELEMEN GAMBAR KOTAK)
-                gridHtml += `
-                    <div class="product-item-card">
-                        <div class="item-image-wrapper">
-                            <img src="${gambarProduk}" alt="${item.name}" onerror="this.src='https://placehold.co/300x200?text=Foto+Google+Sites+Error'">
-                        </div>
-                        <div class="item-details">
-                            <h3>${item.name}</h3>
-                            <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
-                        </div>
-                        <div class="item-card-actions">
-                            <div class="qty-controls">
-                                <button class="btn-qty" onclick="gantiJumlah(${index}, -1)">-</button>
-                                <span class="qty-number">${item.quantity}</span>
-                                <button class="btn-qty" onclick="gantiJumlah(${index}, 1)">+</button>
-                            </div>
-                            <button class="btn-delete" onclick="hapusItem(${index})" title="Hapus Barang">
-                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </button>
+            // Render Sisi Kiri (Keranjang Pengelola)
+            container.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.gambar}" class="item-img" onerror="this.src='https://placehold.co/100?text=No+Image'">
+                    <div class="item-details">
+                        <h3 class="item-name">${item.name}</h3>
+                        <p class="item-price">Rp ${parseInt(item.price).toLocaleString('id-ID')} x ${item.quantity}</p>
+                        <div class="quantity-control">
+                            <button class="btn-qty" onclick="ubahQty(${index}, -1)">&minus;</button>
+                            <span style="font-weight:600;">${item.quantity}</span>
+                            <button class="btn-qty" onclick="ubahQty(${index}, 1)">&plus;</button>
                         </div>
                     </div>
-                `;
+                    <button class="btn-delete" onclick="hapusItem(${index})">❌</button>
+                </div>
+            `).join('');
 
-                // 2. ISI STRUK NOTA KECIL DI SISI KANAN (NAMA PENDEK)
-                const namaPendek = item.name.substring(0, 12);
-                notaTableHtml += `
+            // Render Sisi Kanan (Struk Nota Kasir)
+            let totalHarga = 0;
+            notaBody.innerHTML = cart.map(item => {
+                const sub = parseInt(item.price) * parseInt(item.quantity);
+                totalHarga += sub;
+                return `
                     <tr>
-                        <td style="width: 55%;">${namaPendek}</td>
-                        <td style="width: 15%; text-align: center;">x${item.quantity}</td>
-                        <td style="width: 30%; text-align: right;">Rp ${subtotal.toLocaleString('id-ID')}</td>
+                        <td><strong>${item.name}</strong><br><small style="color:gray;">${item.quantity} x Rp ${parseInt(item.price).toLocaleString('id-ID')}</small></td>
+                        <td style="text-align: right; font-weight: 600;">Rp ${sub.toLocaleString('id-ID')}</td>
                     </tr>
                 `;
-            });
+            }).join('');
 
-            containerGrid.innerHTML = gridHtml;
-            tableNota.innerHTML = notaTableHtml;
-            labelTotal.innerText = "Rp " + totalBiaya.toLocaleString('id-ID');
+            document.getElementById('notaTotalHarga').innerText = "Rp " + totalHarga.toLocaleString('id-ID');
         }
 
-        function gantiJumlah(index, jumlah) {
-            cart[index].quantity += jumlah;
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            simpanDanRefresh();
+        function ubahQty(index, delta) {
+            let cart = JSON.parse(localStorage.getItem('tokoku_cart')) || [];
+            cart[index].quantity = parseInt(cart[index].quantity) + delta;
+            if(cart[index].quantity <= 0) cart.splice(index, 1);
+            localStorage.setItem('tokoku_cart', JSON.stringify(cart));
+            loadCartData();
         }
 
         function hapusItem(index) {
+            let cart = JSON.parse(localStorage.getItem('tokoku_cart')) || [];
             cart.splice(index, 1);
-            simpanDanRefresh();
-        }
-
-        function simpanDanRefresh() {
             localStorage.setItem('tokoku_cart', JSON.stringify(cart));
-            renderCartContent();
-            sinkronAlamat();
+            loadCartData();
         }
 
-        function sinkronAlamat() {
-            const isiInput = document.getElementById('inputAlamatKirim').value.trim();
-            const areaAlamat = document.getElementById('areaAlamatNota');
-            const teksAlamat = document.getElementById('teksAlamatNota');
+        // === FUNGSI INTI GANDA: FOTO CAPTURE + WHATSAPP AUTO REDIRECT ===
+        function generateNotaFotoDanKirim() {
+            const cart = JSON.parse(localStorage.getItem('tokoku_cart')) || [];
+            if(cart.length === 0) { alert("Keranjang kosong!"); return; }
 
-            if (isiInput !== "") {
-                areaAlamat.style.display = "block";
-                teksAlamat.innerText = isiInput;
-            } else {
-                areaAlamat.style.display = "none";
-            }
-        }
+            const targetElemenStruk = document.getElementById('notaFisikKotak');
 
-        // --- SISTEM PEMBUATAN GAMBAR NOTA & SHARE KE WA ---
-        function prosesCheckoutPremium() {
-            const alamat = document.getElementById('inputAlamatKirim').value.trim();
-            if(!alamat) {
-                alert("Mohon masukkan alamat pengiriman lengkap Anda terlebih dahulu!");
-                document.getElementById('inputAlamatKirim').focus();
-                return;
-            }
+            // html2canvas menangkap elemen HTML struk dan mengubahnya menjadi objek gambar canvas
+            html2canvas(targetElemenStruk, { scale: 2, useCORS: true }).then(canvas => {
+                const imageLink = document.createElement('a');
+                imageLink.download = `Nota-TokoKu-#${sessionStorage.getItem('nota_random_id')}.png`;
+                imageLink.href = canvas.toDataURL('image/png');
+                
+                // 1. Trigger download foto otomatis ke galeri HP / folder unduhan pembeli
+                imageLink.click(); 
 
-            const areaNota = document.getElementById('notaGambarArea');
+                // 2. Siapkan teks pengantar pesanan menuju WhatsApp
+                let teksWA = `*Halo Admin TokoKu! Saya ingin mengonfirmasi pesanan baru.*\n`;
+                teksWA += `Berikut ini rincian nomor transaksi *#TK-${sessionStorage.getItem('nota_random_id')}*.\n\n`;
+                teksWA += `_(Saya sudah melampirkan foto bukti struk belanja resmi yang barusan terunduh otomatis ke galeri saya)_`;
 
-            html2canvas(areaNota, { backgroundColor: "#ffffff", scale: 2 }).then(async (canvas) => {
-                canvas.toBlob(async (blob) => {
-                    const fileNota = new File([blob], `Nota-TokoKu.png`, { type: "image/png" });
-                    
-                    if (navigator.canShare && navigator.canShare({ files: [fileNota] })) {
-                        try {
-                            await navigator.share({
-                                files: [fileNota],
-                                title: 'Struk Belanja TokoKu',
-                                text: 'Halo TokoKu, saya ingin memesan barang sesuai foto nota struk belanjaan digital yang sudah terlampir lengkap dengan alamat saya ini ya!'
-                            });
-                            
-                            // Hapus keranjang belanja setelah sukses kirim
-                            cart = [];
-                            localStorage.removeItem('tokoku_cart');
-                            window.location.reload();
-                        } catch (err) {
-                            console.log("Batal membagikan nota.");
-                        }
-                    } else {
-                        // Jalur download otomatis jika browser pc tidak mendukung fitur share file direct
-                        const urlGambar = canvas.toDataURL("image/png");
-                        const linkUnduh = document.createElement('a');
-                        linkUnduh.download = `Nota-TokoKu.png`;
-                        linkUnduh.href = urlGambar;
-                        linkUnduh.click();
-
-                        const nomorWA = "6281234567890"; // Masukkan nomor WA toko Anda di sini
-                        const textChat = "Halo TokoKu, saya mau pesan barang. Foto nota struk kasir digital sudah tersimpan otomatis di galeri ponsel saya, izin saya lampirkan di sini ya!";
-                        window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(textChat)}`, '_blank');
-                    }
-                }, "image/png");
+                // 3. Alihkan halaman ke aplikasi WhatsApp
+                setTimeout(() => {
+                    window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_ADMIN}&text=${encodeURIComponent(teksWA)}`, '_blank');
+                }, 800);
             });
         }
 
-        renderCartContent();
+        loadCartData();
     </script>
 </body>
 </html>
