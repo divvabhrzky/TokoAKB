@@ -115,12 +115,12 @@
             <ul class="nav-links">
                 <li><a href="index.html">Beranda</a></li>
                 <li class="dropdown">
-                    <a href="produk.html" style="color: var(--primary-red);">Katalog Produk ▾</a>
+          <a href="produk.html">Produk ▾</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick="aplikasikanFilter('all')">Semua Menu</a></li>
-                        <li><a href="#" onclick="aplikasikanFilter('makanan')">🍔 Makanan</a></li>
-                        <li><a href="#" onclick="aplikasikanFilter('pakaian')">👕 Pakaian</a></li>
-                        <li><a href="#" onclick="aplikasikanFilter('elektronik')">⚡ Elektronik</a></li>
+                        <li><a href="produk.html?filter=all">Semua Menu</a></li>
+                        <li><a href="produk.html?filter=minuman">🍹MINUMAN SEGAR</a></li>
+                        <li><a href="produk.html?filter=bakaraan">♨️ BAKARAN</a></li>
+                        <li><a href="produk.html?filter=dimsum">🥟 DIMSUM</a></li>
                     </ul>
                 </li>
                 <li><a href="kontak.html">Kontak kami</a></li>
@@ -142,9 +142,9 @@
             </div>
             <div class="filter-tabs">
                 <button class="filter-btn active" id="btn-all" onclick="aplikasikanFilter('all')">✨ Semua Menu</button>
-                <button class="filter-btn" id="btn-dua" onclick="aplikasikanFilter('makanan')">💸Harga Rp. 2000</button>
-                <button class="filter-btn" id="btn-empat" onclick="aplikasikanFilter('pakaian')">💸Harga Rp. 4000</button>
-                <button class="filter-btn" id="btn-minuman" onclick="aplikasikanFilter('elektronik')">🧋Minuman</button>
+                <button class="filter-btn" id="btn-dua" onclick="aplikasikanFilter('bakaran')">♨️ BAKARAN</button>
+                <button class="filter-btn" id="btn-empat" onclick="aplikasikanFilter('dimsum')">🥟 DIMSUM</button>
+                <button class="filter-btn" id="btn-minuman" onclick="aplikasikanFilter('minuman')">🍹MINUMAN SEGAR</button>
             </div>
         </div>
 
@@ -250,7 +250,7 @@
                             ${komponenBadge}
                         </div>
                         <div class="product-info">
-                            <span class="product-category">${labelKategori}</span>
+                            <span class="product-category"></span>
                             <a href="detail-produk.html?id=${produk.id}" class="product-title">${produk.nama || 'Menu Tanpa Nama'}</a>
                             <p class="product-description">${produk.deskripsi || 'Nikmati sensasi kelezatan produk berkualitas premium buatan Bakaran Gen Z.'}</p>
                             <div class="product-price">Rp ${nominalHarga.toLocaleString('id-ID')}</div>
