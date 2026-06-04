@@ -136,59 +136,6 @@
         .section-title { font-size: 2.2rem; font-weight: 800; color: var(--text-main); letter-spacing: -1px; }
         .section-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-top: 5px; }
 
-        /* --- SEKSI VIDEO SHOWCASE PORTRAIT --- */
-        .video-showcase {
-            background-color: #0f172a;
-            color: white;
-            padding: 40px 30px;
-            border-radius: var(--radius);
-            margin-bottom: 50px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-        .video-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-        .video-wrapper {
-            width: 100%;
-            aspect-ratio: 9 / 16;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: #000;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-        .video-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .video-info h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--secondary-yellow);
-            margin-bottom: 15px;
-        }
-        .video-info p {
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        .video-badges {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .v-badge {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
         /* --- GRID PRODUK LIVE --- */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .product-card { background: var(--card-bg); border-radius: var(--radius); overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; border: 1px solid #e2e8f0; transition: all 0.2s; }
@@ -222,10 +169,6 @@
         footer { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 0.95rem; margin-top: 80px; border-top: 1px solid #e2e8f0; background-color: var(--card-bg); }
 
         @media (max-width: 768px) {
-            .video-grid { grid-template-columns: 1fr; gap: 20px; }
-            .video-wrapper { max-width: 280px; margin: 0 auto; }
-            .video-info { text-align: center; }
-            .video-badges { justify-content: center; }
             .section-title { font-size: 1.8rem; }
             .delivery-buttons { flex-direction: column; gap: 15px; }
             .btn-delivery { justify-content: center; width: 100%; max-width: 300px; margin: 0 auto; }
@@ -289,32 +232,6 @@
     </div>
 
     <main class="container">
-        
-        <!-- ============================================
-           --- SEKSI VIDEO SHOWCASE PORTRAIT (9:16) ---
-           ============================================ -->
-        <section class="video-showcase">
-            <div class="video-grid">
-                <div class="video-wrapper">
-                    <!-- Pastikan file video sosis-bakar.mp4 diletakkan sefolder dengan file html ini -->
-                    <video controls loop muted playsinline>
-                        <source src="sosis-bakar.mp4" type="video/mp4">
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-cooking-in-a-professional-kitchen-40748-large.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung elemen pemutar video.
-                    </video>
-                </div>
-                <div class="video-info">
-                    <h3>🔥 Sensasi Bakaran Nagih Gen Z</h3>
-                    <p>Lihat langsung proses pembuatan sosis bakar pilihan kami! Dipanggang merata secara higienis, dibalur dengan bumbu barbekyu kental racikan rahasia, serta disembur saus ekstra pedas yang siap memanjakan lidah Anda. Dijamin anti dikecewain soal rasa!</p>
-                    <div class="video-badges">
-                        <span class="v-badge">🍢 Sosis Premium</span>
-                        <span class="v-badge">🔥 Bumbu Bakar Meresap</span>
-                        <span class="v-badge">🌶️ Pilihan Saus Custom</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="section-header">
             <h2 class="section-title">🔥 Menu Terlaris Minggu Ini</h2>
             <p class="section-subtitle">Pilihan favorit Gen Z yang paling sering dipesan, sinkronisasi live dari cloud.</p>
@@ -427,9 +344,8 @@
                 const hargaNominal = parseInt(p.harga) || 0;
 
                 let labelKategoriTampil = p.kategori ? p.kategori.toString().trim().toLowerCase() : 'umum';
-                if(labelKategoriTampil === 'bakaran') labelKategoriTampil = "BAKARAN";
-                if(labelKategoriTampil === 'dimsum') labelKategoriTampil = "DIMSUM";
-                if(labelKategoriTampil === 'minuman') labelKategoriTampil = "MINUMAN";
+                if(labelKategoriTampil === 'makanan') labelKategoriTampil = "Seri Rp 2.000";
+                if(labelKategoriTampil === 'pakaian') labelKategoriTampil = "Seri Rp 4.000";
 
                 return `
                     <div class="product-card">
