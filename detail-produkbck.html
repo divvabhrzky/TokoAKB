@@ -5,145 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Produk - Bakaran Gen Z</title>
     <style>
-        /* --- VARIABLE CSS TEMA BAKARAN GEN Z --- */
+        /* --- VARIABLE CSS --- */
         :root {
-            --primary-red: #b31217; 
-            --secondary-yellow: #fBBF24;
+            --primary-color: #3b82f6; 
             --background-color: #f8fafc;   
             --card-background: #ffffff; 
-            --text-color: #0f172a; 
-            --text-light: #475569; 
-            --border-radius: 16px;         
+            --text-color: #1e293b; 
+            --text-light: #64748b; 
+            --border-radius: 12px;         
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--background-color); color: var(--text-color); padding-bottom: 60px; line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--background-color); color: var(--text-color); padding-bottom: 60px; }
         
-        /* --- NAVBAR PREMIUM --- */
-        header { background-color: var(--card-background); box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 900; border-bottom: 1px solid #e2e8f0; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 20px; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-red); text-decoration: none; letter-spacing: -1px; }
-        .logo span { color: var(--secondary-yellow); }
-        .nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.95rem; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--primary-red); }
+        /* --- NAVBAR --- */
+        header { background-color: var(--card-background); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 900; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
 
         /* --- LAYOUT UTAMA --- */
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         
         .product-detail-grid {
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 50px;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
             background-color: var(--card-background);
             padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
-            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* Box Foto Gambar */
         .detail-image-box {
             width: 100%;
-            height: 480px;
-            background-color: #f1f5f9;
+            height: 400px;
+            background-color: #e2e8f0;
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s ease;
         }
-        .detail-image-box:hover { transform: scale(1.01); }
-        .detail-image-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .detail-image-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Info Konten Kanan */
-        .detail-info-box { display: flex; flex-direction: column; justify-content: center; }
+        .detail-info-box { display: flex; flex-direction: column; }
         
         /* Badge Status Atas */
         .status-badge-detail {
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 30px;
+            padding: 4px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
             width: max-content;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
         }
 
-        .product-title { font-size: 2.4rem; font-weight: 800; margin-bottom: 12px; color: var(--text-color); letter-spacing: -1px; line-height: 1.2; }
-        .product-price { font-size: 2.2rem; color: var(--primary-red); font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 5px; }
-        
-        .desc-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-light); }
-        .product-desc { color: var(--text-light); line-height: 1.7; margin-bottom: 30px; font-size: 1.05rem; text-align: justify; white-space: pre-line; }
+        .product-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; }
+        .product-price { font-size: 1.8rem; color: var(--primary-color); font-weight: bold; margin-bottom: 20px; }
+        .product-desc { color: var(--text-light); line-height: 1.7; margin-bottom: 25px; }
 
-        /* Banner Pengiriman Dinamis */
+        /* Banner Info Pengiriman Dinamis */
         .info-shipping-box {
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            font-size: 0.95rem;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 500;
+            gap: 10px;
         }
 
         /* Area Tombol Aksi */
         .action-zone {
-            background-color: #f8fafc;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            background-color: var(--background-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-        .action-zone h3 { font-size: 0.85rem; margin-bottom: 14px; text-transform: uppercase; color: var(--text-light); letter-spacing: 1px; font-weight: 700; }
+        .action-zone h3 { font-size: 0.9rem; margin-bottom: 12px; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.5px; }
         .btn-group { display: flex; gap: 15px; }
         
-        .btn-action { 
-            flex: 1; 
-            padding: 16px; 
-            border: none; 
-            border-radius: 10px; 
-            font-weight: 700; 
-            font-size: 1.05rem; 
-            cursor: pointer; 
-            text-align: center; 
-            text-decoration: none; 
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        /* Tombol Ready Stock */
-        .btn-ready { 
-            background: linear-gradient(135deg, var(--primary-red) 0%, #941014 100%); 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(179, 18, 23, 0.25);
-        }
-        .btn-ready:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(179, 18, 23, 0.35); opacity: 1; }
-        
-        /* Tombol PO */
-        .btn-po { 
-            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(234, 179, 8, 0.25);
-        }
-        .btn-po:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(234, 179, 8, 0.35); opacity: 1; }
-        
-        .btn-action:active { transform: translateY(0); }
+        .btn-action { flex: 1; padding: 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; text-decoration: none; }
+        .btn-ready { background-color: var(--primary-color); color: white; }
+        .btn-po { background-color: #eab308; color: white; }
+        .btn-action:hover { opacity: 0.9; }
 
-        /* Media Queries untuk Handphone */
-        @media (max-width: 992px) {
-            .product-detail-grid { grid-template-columns: 1fr; gap: 30px; padding: 25px; }
-            .detail-image-box { height: 360px; }
-            .product-title { font-size: 2rem; }
-        }
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
+            .product-detail-grid { grid-template-columns: 1fr; padding: 20px; }
             .detail-image-box { height: 280px; }
             .btn-group { flex-direction: column; }
-            .btn-action { width: 100%; }
         }
     </style>
 </head>
@@ -151,7 +100,7 @@
 
     <header>
         <nav class="navbar">
-            <a href="index.html" class="logo">Bakaran<span>Gen Z</span></a>
+            <a href="index.html" class="logo">Bakaran Gen Z</a>
             <ul class="nav-links">
                 <li><a href="index.html">Beranda</a></li>
                 <li><a href="produk.html">Produk</a></li>
@@ -170,15 +119,14 @@
 
                 <h1 class="product-title" id="productTitle">Nama Produk</h1>
                 <div class="product-price" id="productPrice">Rp 0</div>
-                
-                <h2 class="desc-title">Rincian Menu:</h2>
                 <p class="product-desc" id="productDesc">Memuat deskripsi produk...</p>
                 
                 <div id="shippingInfoBox" class="info-shipping-box"></div>
 
                 <div class="action-zone">
                     <h3 id="actionTitle">Pilihan Pembelian:</h3>
-                    <div class="btn-group" id="actionButtonGroup"></div>
+                    <div class="btn-group" id="actionButtonGroup">
+                        </div>
                 </div>
             </div>
 
@@ -217,7 +165,7 @@
             const statusSkarang = currentProduct.status.toLowerCase();
             
             // Pasang data tekstual utama
-            document.title = `${currentProduct.nama} - Bakaran Gen Z`;
+            document.title = `${currentProduct.nama} - TokoKu`;
             document.getElementById('productTitle').innerText = currentProduct.nama;
             document.getElementById('productPrice').innerText = "Rp " + parseInt(currentProduct.harga).toLocaleString('id-ID');
             document.getElementById('productDesc').innerText = currentProduct.deskripsi;
@@ -236,15 +184,16 @@
                 badgeArea.innerHTML = `<span class="status-badge-detail" style="background:#ffedd5; color:#c2410c; border:1px solid #fed7aa;">${textLabel}</span>`;
                 
                 // 2. Set Banner Informasi Aturan PO
-                shippingBox.style.background = "#fffbeb";
-                shippingBox.style.color = "#b45309";
+                shippingBox.style.background = "#fef9c3";
+                shippingBox.style.color = "#713f12";
                 shippingBox.style.border = "1px solid #fef08a";
-                shippingBox.innerHTML = `<span>⏳</span> <div><strong>Sistem Pre-Order:</strong> Produk ini memerlukan waktu pembuatan/pengemasan sekitar 3-5 hari kerja sebelum dikirim.</div>`;
+                shippingBox.innerHTML = `<span>⏳</span> <strong>Sistem Pre-Order:</strong> Produk ini memerlukan waktu pembuatan/pengemasan sekitar 3-5
+                 hari kerja sebelum dikirim.`;
 
                 // 3. Set Tombol (Hanya menampilkan tombol PO Penuh)
                 actionTitle.innerText = "Produk ini khusus Pre-Order (PO):";
                 buttonGroup.innerHTML = `
-                    <button onclick=\"bukaFormPO()\" class=\"btn-action btn-po\" style=\"width: 100%;\">
+                    <button onclick="bukaFormPO()" class="btn-action btn-po" style="width: 100%;">
                         📝 Isi Formulir Pemesanan Pre-Order
                     </button>
                 `;
@@ -255,15 +204,15 @@
                 badgeArea.innerHTML = `<span class="status-badge-detail" style="${warnaBadge}">${textLabel}</span>`;
                 
                 // 2. Set Banner Informasi Ready Instan
-                shippingBox.style.background = "#f0fdf4";
-                shippingBox.style.color = "#166534";
+                shippingBox.style.background = "#dcfce7";
+                shippingBox.style.color = "#14532d";
                 shippingBox.style.border = "1px solid #bbf7d0";
-                shippingBox.innerHTML = `<span>⚡</span> <div><strong>Stok Tersedia:</strong> Pesanan Anda siap dikemas hari ini dan langsung dikirim menggunakan kurir instan kilat.</div>`;
+                shippingBox.innerHTML = `<span>⚡</span> <strong>Stok Tersedia:</strong> Pesanan Anda siap dikemas hari ini dan langsung dikirim menggunakan kurir instan kilat.`;
 
                 // 3. Set Tombol (Menampilkan tombol Beli Langsung)
                 actionTitle.innerText = "Pilihan Pembelian:";
                 buttonGroup.innerHTML = `
-                    <button onclick=\"addToCartLocal('ready')\" class=\"btn-action btn-ready\">
+                    <button onclick="addToCartLocal('ready')" class="btn-action btn-ready">
                         🛒 Masukkan Keranjang Belanja
                     </button>
                 `;

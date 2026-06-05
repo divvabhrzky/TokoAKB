@@ -5,20 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Bakaran GenZ</title>
     <style>
-        /* --- VARIABLE STYLE MODERN --- */
+        /* --- VARIABLE STYLE MODERN BAKARAN GENZ --- */
         :root {
-            --primary: #4f46e5; 
+            --primary: #b31217; /* Merah Bakaran GenZ */
+            --secondary: #fBBF24; /* Kuning Aksen */
             --bg: #f8fafc; 
             --card: #ffffff;
             --text: #0f172a; 
             --muted: #64748b; 
-            --danger: #ef4444; 
-            --success: #22c55e;
+            --danger: #dc2626; 
+            --success: #16a34a;
+            --radius: 12px;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: var(--bg); color: var(--text); padding: 30px; }
         
+        /* --- SCREEN LOGIN UTAMA --- */
+        .login-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #0f172a;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000;
+        }
+        .login-box {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .login-box h2 { color: var(--primary); font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; }
+        .login-box p { color: var(--muted); font-size: 0.9rem; margin-bottom: 25px; }
+        .form-login-group { margin-bottom: 15px; text-align: left; }
+        .form-login-group label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 6px; }
+        .form-login-control { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 0.95rem; }
+        .form-login-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px #fff1f2; }
+        .btn-login { width: 100%; padding: 12px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 15px; }
+        .login-error { color: var(--danger); font-size: 0.85rem; font-weight: 600; margin-top: 10px; display: none; }
+
+        /* --- CONTAINER KONTEN UTAMA ADMIN --- */
+        .admin-panel-content { display: none; }
+
+        /* HEADER & NAVBAR CONTROL */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; max-width: 1600px; margin: 0 auto 25px auto; background: var(--card); padding: 15px 25px; border-radius: var(--radius); border: 1px solid #e2e8f0; }
+        .logo-text { font-size: 1.4rem; font-weight: 800; color: var(--primary); text-decoration: none; letter-spacing: -1px; }
+        .btn-logout { background: #1e293b; color: white; padding: 8px 16px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
+        .btn-logout:hover { background: var(--primary); }
+
         /* Tata Letak Dua Kolom */
         .dashboard-layout { display: grid; grid-template-columns: 420px 1fr; gap: 30px; max-width: 1600px; margin: 0 auto; }
         
@@ -26,7 +63,7 @@
             .dashboard-layout { grid-template-columns: 1fr; }
         }
 
-        .card { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); height: max-content; border: 1px solid #e2e8f0; }
+        .card { background: var(--card); padding: 25px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.02); height: max-content; border: 1px solid #e2e8f0; }
         
         h1, h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 5px; color: var(--primary); }
         .subtitle { color: var(--muted); margin-bottom: 20px; font-size: 0.85rem; }
@@ -34,21 +71,33 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem; }
         .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.95rem; }
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px #fff1f2; }
         
         /* Notifikasi Status */
         .status-box { display: none; padding: 12px; border-radius: 6px; font-weight: 600; text-align: center; margin-bottom: 15px; font-size: 0.9rem; }
-        .status-loading { background: #e0e7ff; color: #4338ca; }
+        .status-loading { background: #fff1f2; color: var(--primary); }
         .status-success { background: #dcfce7; color: #15803d; }
 
-        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; box-shadow: 0 4px 12px rgba(179, 18, 23, 0.15); }
+        .btn-submit:hover { background: #941014; }
         .btn-cancel { width: 100%; padding: 10px; background: #e2e8f0; color: var(--text); border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 8px; display: none; }
 
+        /* --- CONTROL UTILITY BAR (CARI, FILTER KATEGORI, SORTIR) --- */
+        .utility-control-bar {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .utility-control-bar { grid-template-columns: 1fr; }
+        }
+
         /* Sisi Kanan: Tabel Data */
-        .table-container { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); overflow-x: auto; border: 1px solid #e2e8f0; }
+        .table-container { background: var(--card); padding: 25px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.02); overflow-x: auto; border: 1px solid #e2e8f0; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 14px 12px; border-bottom: 1px solid #e2e8f0; }
-        th { background: #f1f5f9; color: var(--text); font-weight: 700; }
+        th { background: #f8fafc; color: var(--text); font-weight: 700; border-bottom: 2px solid #e2e8f0; }
         
         .img-preview { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; background: #e2e8f0; }
         
@@ -59,130 +108,270 @@
         .badge-terlaris { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
         .badge-terlaris-po { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
         
-        .btn-table { padding: 6px 12px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; margin-right: 5px; }
-        .btn-edit { background: #3b82f6; color: white; }
-        .btn-del { background: var(--danger); color: white; }
+        .btn-table { padding: 6px 12px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; margin-right: 5px; transition: all 0.2s; }
+        .btn-edit { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .btn-edit:hover { background: #2563eb; color: white; }
+        .btn-del { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+        .btn-del:hover { background: var(--danger); color: white; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-layout">
-        
-        <div class="card">
-            <h1 id="formTitle">Tambah Produk Baru</h1>
-            <p class="subtitle" id="formSubtitle">Masukkan data rincian komoditas produk ke Google Sheets.</p>
+    <div class="login-screen" id="authScreen">
+        <div class="login-box">
+            <h2>Bakaran GenZ</h2>
+            <p>Protected Admin Panel System</p>
             
-            <div id="statusNotification" class="status-box">Memproses data...</div>
-
-            <form id="adminForm">
-                <input type="hidden" id="editProductId" value="">
-                <input type="hidden" id="editProductGambarOld" value="">
-
-                <div class="form-group">
-                    <label>Nama Produk</label>
-                    <input type="text" id="pName" class="form-control" required placeholder="Contoh: Mozza-Bite Crispy">
-                </div>
-                
-                <div class="form-group">
-                    <label>Harga Jual (Rp)</label>
-                    <input type="number" id="pPrice" class="form-control" required placeholder="Contoh: 15000">
-                </div>
-                
-                <div class="form-group">
-                    <label>Kategori</label>
-                    <select id="pCategory" class="form-control">
-                        <option value="bakaran">BAKARAN</option>
-                        <option value="dimsum">DIMSUM</option>
-                        <option value="minuman">MINUMAN</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Status Ketersediaan</label>
-                    <select id="pStatus" class="form-control">
-                        <option value="ready">✅ Ready Stock</option>
-                        <option value="po">⏳ Pre-Order (PO)</option>
-                        <option value="terlaris">🔥 Produk Terlaris (Ready)</option>
-                        <option value="terlaris-po">🔥 Pre-Order Terlaris (PO)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label id="labelFoto">Foto Produk</label>
-                    <input type="file" id="pTypeFile" class="form-control" accept="image/*">
-                    <small id="editInfoGambar" style="color:var(--muted); display:none; margin-top:4px;">Kosongkan jika tidak ingin mengganti foto produk</small>
-                </div>
-                
-                <div class="form-group">
-                    <label>Deskripsi Produk</label>
-                    <textarea id="pDesc" class="form-control" rows="4" required placeholder="Tulis rincian deskripsi komoditas..."></textarea>
-                </div>
-                
-                <button type="submit" id="btnSubmitForm" class="btn-submit">🚀 Publikasikan Produk</button>
-                <button type="button" id="btnCancelEdit" class="btn-cancel" onclick="resetToCreateMode()">Batal Edit</button>
-            </form>
+            <div class="form-login-group">
+                <label>Username Admin</label>
+                <input type="text" id="adminUser" class="form-login-control" placeholder="Masukkan username...">
+            </div>
+            <div class="form-login-group">
+                <label>Password</label>
+                <input type="password" id="adminPass" class="form-login-control" placeholder="Masukkan password...">
+            </div>
+            
+            <div class="login-error" id="loginErrorMsg">⚠️ Username atau Password salah!</div>
+            
+            <button class="btn-login" onclick="eksekusiLoginAdmin()">Masuk ke Sistem</button>
         </div>
+    </div>
 
-        <div class="table-container">
-            <h2>Daftar Produk Aktif</h2>
-            <p class="subtitle">Memantau dan mengelola seluruh isi data komoditas secara real-time.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Foto</th>
-                        <th>Nama Produk</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="productTableBody">
-                    <tr><td colspan="6" style="text-align: center; color: var(--muted); padding: 40px 0;">Mengambil sinkronisasi data Google Sheets...</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="admin-panel-content" id="adminMainContent">
         
+        <header class="admin-header">
+            <a href="index.html" class="logo-text">Bakaran<span style="color: var(--secondary);">GenZ</span></a>
+            <div>
+                <button class="btn-logout" onclick="logoutAdminSistem()">Keluar Panel 🚪</button>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            
+            <div class="card">
+                <h1 id="formTitle">Tambah Produk Baru</h1>
+                <p class="subtitle" id="formSubtitle">Masukkan data rincian komoditas produk ke Google Sheets.</p>
+                
+                <div id="statusNotification" class="status-box">Memproses data...</div>
+
+                <form id="adminForm">
+                    <input type="hidden" id="editProductId" value="">
+                    <input type="hidden" id="editProductGambarOld" value="">
+
+                    <div class="form-group">
+                        <label>Nama Produk</label>
+                        <input type="text" id="pName" class="form-control" required placeholder="Contoh: Mozza-Bite Crispy">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Harga Jual (Rp)</label>
+                        <input type="number" id="pPrice" class="form-control" required placeholder="Contoh: 15000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select id="pCategory" class="form-control">
+                            <option value="bakaran">BAKARAN</option>
+                            <option value="dimsum">DIMSUM</option>
+                            <option value="minuman">MINUMAN</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Status Ketersediaan</label>
+                        <select id="pStatus" class="form-control">
+                            <option value="ready">✅ Ready Stock</option>
+                            <option value="po">⏳ Pre-Order (PO)</option>
+                            <option value="terlaris">🔥 Produk Terlaris (Ready)</option>
+                            <option value="terlaris-po">🔥 Pre-Order Terlaris (PO)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="labelFoto">Foto Produk</label>
+                        <input type="file" id="pTypeFile" class="form-control" accept="image/*">
+                        <small id="editInfoGambar" style="color:var(--muted); display:none; margin-top:4px;">Kosongkan jika tidak ingin mengganti foto produk</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Deskripsi Produk</label>
+                        <textarea id="pDesc" class="form-control" rows="4" required placeholder="Tulis rincian deskripsi komoditas..."></textarea>
+                    </div>
+                    
+                    <button type="submit" id="btnSubmitForm" class="btn-submit">🚀 Publikasikan Produk</button>
+                    <button type="button" id="btnCancelEdit" class="btn-cancel" onclick="resetToCreateMode()">Batal Edit</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2>Daftar Produk Aktif</h2>
+                <p class="subtitle">Memantau dan mengelola seluruh isi data komoditas secara real-time.</p>
+                
+                <div class="utility-control-bar">
+                    <div class="search-box">
+                        <input type="text" id="adminCariInput" class="form-control" placeholder="🔍 Cari nama produk..." oninput="prosesFilterDanSortirAdmin()">
+                    </div>
+                    <div class="select-box">
+                        <select id="adminFilterKategori" class="form-control" onchange="prosesFilterDanSortirAdmin()">
+                            <option value="all">📁 Semua Kategori</option>
+                            <option value="bakaran">♨️ Bakaran</option>
+                            <option value="dimsum">🥟 Dimsum</option>
+                            <option value="minuman">🍹 Minuman</option>
+                        </select>
+                    </div>
+                    <div class="select-box">
+                        <select id="adminSortirData" class="form-control" onchange="prosesFilterDanSortirAdmin()">
+                            <option value="default">🔄 Urutkan Default</option>
+                            <option value="name-az">🔤 Nama (A - Z)</option>
+                            <option value="name-za">🔤 Nama (Z - A)</option>
+                            <option value="price-low">💰 Harga Terendah</option>
+                            <option value="price-high">💰 Harga Tertinggi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <tr><td colspan="6" style="text-align: center; color: var(--muted); padding: 40px 0;">Mengambil sinkronisasi data Google Sheets...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
     </div>
 
     <script>
-        // === URL API WEB APP GOOGLE APPS SCRIPT ANDA ===
+        // --- 🔐 CONFIG LOG IN CREDENTIALS PANEL ---
+        const USERNAME_VALID = "admin";
+        const PASSWORD_VALID = "unpam";
+
+        // === URL API WEB APP GOOGLE APPS SCRIPT ===
         const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbyamzNaR4OOWydmLtTKYerRTUtP79GlTenlRHsvIsQoAk7ubDM00pmSxm05aZO9Y7uflg/exec"; 
         
         let localDatabase = [];
 
-        // 1. MEMBACA DATA LIVE DARI GOOGLE SHEETS (Read)
+        // 1. SISTEM GERBANG VALIDASI AUTH LOGIN
+        function cekStatusLoginAwal() {
+            if (sessionStorage.getItem("admin_logged_in") === "true") {
+                document.getElementById("authScreen").style.display = "none";
+                document.getElementById("adminMainContent").style.display = "block";
+                loadProductsData();
+            }
+        }
+
+        function eksekusiLoginAdmin() {
+            const user = document.getElementById("adminUser").value.trim();
+            const pass = document.getElementById("adminPass").value.trim();
+            const errorMsg = document.getElementById("loginErrorMsg");
+
+            if (user === USERNAME_VALID && pass === PASSWORD_VALID) {
+                sessionStorage.setItem("admin_logged_in", "true");
+                errorMsg.style.display = "none";
+                document.getElementById("authScreen").style.display = "none";
+                document.getElementById("adminMainContent").style.display = "block";
+                loadProductsData();
+            } else {
+                errorMsg.style.display = "block";
+                document.getElementById("adminPass").value = "";
+            }
+        }
+
+        function logoutAdminSistem() {
+            if (confirm("Apakah Anda yakin ingin keluar dari panel admin?")) {
+                sessionStorage.removeItem("admin_logged_in");
+                window.location.reload();
+            }
+        }
+
+        // 2. MEMBACA DATA LIVE DARI GOOGLE SHEETS (Read)
         function loadProductsData() {
             fetch(GOOGLE_API_URL)
                 .then(res => res.json())
                 .then(data => {
                     localDatabase = data;
-                    renderTable(data);
+                    prosesFilterDanSortirAdmin();
                 })
                 .catch(err => {
                     console.error("Gagal sinkronisasi data:", err);
                 });
         }
 
-        // 2. MENCETAK DATA KE TABEL ADMIN
+        // 3. CORE ENGINE LOGIKA: CARI, SORT KATEGORI, DAN SORTIR ITEM TERTENTU
+        function prosesFilterDanSortirAdmin() {
+            const kataKunci = document.getElementById('adminCariInput').value.toLowerCase().trim();
+            const kategoriPilihan = document.getElementById('adminFilterKategori').value;
+            const jenisSortir = document.getElementById('adminSortirData').value;
+
+            // Tahap A: Kloning Array Data Master
+            let hasilProses = [...localDatabase];
+
+            // Tahap B: Filter Berdasarkan Pilihan Kategori Tab
+            if (kategoriPilihan !== "all") {
+                hasilProses = hasilProses.filter(p => p.kategori && p.kategori.toString().toLowerCase().trim() === kategoriPilihan);
+            }
+
+            // Tahap C: Filter Berdasarkan Kolom Pencarian Kata Kunci
+            if (kataKunci !== "") {
+                hasilProses = hasilProses.filter(p => p.nama && p.nama.toLowerCase().includes(kataKunci));
+            }
+
+            // Tahap D: Logika Pengurutan / Sortir Berdasarkan Atribut Tertentu
+            if (jenisSortir === "name-az") {
+                hasilProses.sort((a, b) => (a.nama || "").localeCompare(b.nama || ""));
+            } 
+            else if (jenisSortir === "name-za") {
+                hasilProses.sort((a, b) => (b.nama || "").localeCompare(a.nama || ""));
+            } 
+            else if (jenisSortir === "price-low") {
+                hasilProses.sort((a, b) => (parseInt(a.harga) || 0) - (parseInt(b.harga) || 0));
+            } 
+            else if (jenisSortir === "price-high") {
+                hasilProses.sort((a, b) => (parseInt(b.harga) || 0) - (parseInt(a.harga) || 0));
+            }
+
+            // Jalankan pencetakan baris hasil olahan data ke HTML
+            renderTable(hasilProses);
+        }
+
+        // 4. MENCETAK DATA KE TABEL ADMIN
         function renderTable(products) {
             const tbody = document.getElementById('productTableBody');
             if(products.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--muted);">Belum ada produk yang terdaftar di Google Sheets.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--muted); padding:20px 0;">Tidak ada produk yang cocok dengan kriteria filter.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = products.map((p, index) => {
-                const statusKecil = p.status ? p.status.toLowerCase() : 'ready';
+            tbody.innerHTML = products.map((p) => {
+                const statusKecil = p.status ? p.status.toLowerCase().trim() : 'ready';
+                
+                // Mencegah eror style CSS jalurnya rusak akibat variasi teks string spasi/tanda kurung status baru
+                let classBadgeData = 'ready';
+                if (statusKecil.includes('po')) classBadgeData = 'po';
+                if (statusKecil.includes('terlaris')) classBadgeData = 'terlaris';
+                if (statusKecil.includes('terlaris') && statusKecil.includes('po')) classBadgeData = 'terlaris-po';
+
+                // Menemukan index baris asli pada database master global untuk fungsi klik edit
+                const indexDatabaseAsli = localDatabase.findIndex(item => item.id === p.id);
+
                 return `
                     <tr>
                         <td><img src="${p.gambar || 'https://placehold.co/50?text=No+Img'}" class="img-preview" onerror="this.src='https://placehold.co/50?text=Error'"></td>
                         <td style="font-weight:600; color: var(--text);">${p.nama || 'Tanpa Nama'}</td>
-                        <td style="text-transform: capitalize;">${p.kategori || 'umum'}</td>
+                        <td style="text-transform: uppercase; font-weight:600; font-size:0.8rem; color:var(--muted);">${p.kategori || 'umum'}</td>
                         <td style="font-weight: 700; color: var(--primary);">Rp ${(parseInt(p.harga) || 0).toLocaleString('id-ID')}</td>
-                        <td><span class="badge badge-${statusKecil}">${p.status || 'Ready'}</span></td>
+                        <td><span class="badge badge-${classBadgeData}">${p.status || 'Ready Stock'}</span></td>
                         <td>
-                            <button class="btn-table btn-edit" onclick="triggerEditMode(${index})">🔧 Edit</button>
+                            <button class="btn-table btn-edit" onclick="triggerEditMode(${indexDatabaseAsli})">🔧 Edit</button>
                             <button class="btn-table btn-del" onclick="deleteProductCloud('${p.id}', '${p.nama}')">🗑️ Hapus</button>
                         </td>
                     </tr>
@@ -190,7 +379,7 @@
             }).join('');
         }
 
-        // 3. EVENT SUBMIT FORM (Mencakup fungsi Tambah Baru & Edit Perubahan)
+        // 5. EVENT SUBMIT FORM (Mencakup fungsi Tambah Baru & Edit Perubahan)
         document.getElementById('adminForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const statusBox = document.getElementById('statusNotification');
@@ -254,7 +443,7 @@
             }
         });
 
-        // 4. MENGAKTIFKAN MODE PENGEDITAN DATA (Mengisi otomatis form dengan data lama)
+        // 6. MENGAKTIFKAN MODE PENGEDITAN DATA
         function triggerEditMode(index) {
             const product = localDatabase[index];
             document.getElementById('formTitle').innerText = "Edit Rincian Produk";
@@ -267,17 +456,17 @@
             document.getElementById('editProductGambarOld').value = product.gambar;
             document.getElementById('pName').value = product.nama;
             document.getElementById('pPrice').value = product.harga;
-            document.getElementById('pCategory').value = product.kategori ? product.kategori.toLowerCase() : 'makanan';
-            document.getElementById('pStatus').value = product.status ? product.status.toLowerCase() : 'ready';
+            document.getElementById('pCategory').value = product.kategori ? product.kategori.toString().toLowerCase().trim() : 'bakaran';
+            document.getElementById('pStatus').value = product.status ? product.status.toString().trim() : 'ready';
             document.getElementById('pDesc').value = product.deskripsi;
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 5. RESET FORM KE MODE BUAT BARU
+        // 7. RESET FORM KE MODE BUAT BARU
         function resetToCreateMode() {
             document.getElementById('formTitle').innerText = "Tambah Produk Baru";
-            document.getElementById('formSubtitle').innerText = "Masukkan data materi komoditas produk ke Google Sheets.";
+            document.getElementById('formSubtitle').innerText = "Masukkan data rincian komoditas produk ke Google Sheets.";
             document.getElementById('btnSubmitForm').innerText = "🚀 Publikasikan Produk";
             document.getElementById('btnCancelEdit').style.display = "none";
             document.getElementById('editInfoGambar').style.display = "none";
@@ -286,7 +475,7 @@
             document.getElementById('editProductGambarOld').value = "";
         }
 
-        // 6. FUNGSI PENGHAPUSAN DATA (Delete)
+        // 8. FUNGSI PENGHAPUSAN DATA (Delete)
         function deleteProductCloud(id, nama) {
             if(confirm(`Apakah Anda yakin ingin menghapus produk "${nama}" secara permanen dari Google Sheets?`)) {
                 const statusBox = document.getElementById('statusNotification');
@@ -309,8 +498,13 @@
             }
         }
 
-        // Jalankan sinkronisasi database saat pertama kali masuk halaman
-        loadProductsData();
+        // Ikat tombol Enter keyboard pada form input sandi login
+        document.getElementById("adminPass").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") eksekusiLoginAdmin();
+        });
+
+        // Jalankan pemeriksaan proteksi halaman awal
+        window.onload = cekStatusLoginAwal;
     </script>
 </body>
 </html>

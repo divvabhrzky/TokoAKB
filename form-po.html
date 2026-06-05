@@ -5,78 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulir Pre-Order - Bakaran Gen Z</title>
     <style>
+        /* --- VARIABLE STYLE MODERN BAKARAN GEN Z --- */
         :root {
-            --primary-color: #3b82f6; --secondary-color: #1e3a8a; --background-color: #f8fafc;   
-            --card-background: #ffffff; --text-color: #1e293b; --text-light: #64748b; --border-radius: 12px;         
+            --primary-red: #b31217; 
+            --secondary-yellow: #fBBF24; 
+            --background-color: #f8fafc;   
+            --card-background: #ffffff; 
+            --text-color: #0f172a; 
+            --text-light: #475569; 
+            --border-radius: 16px;         
         }
-        [data-theme="dark"] {
-            --background-color: #0f172a; --card-background: #1e293b; --text-color: #f8fafc; --text-light: #94a3b8;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background-color 0.3s, color 0.3s; }
-        body { background-color: var(--background-color); color: var(--text-color); padding-bottom: 60px; }
         
-        header { background-color: var(--card-background); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-decoration: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--background-color); color: var(--text-color); padding-bottom: 60px; line-height: 1.6; }
+        
+        /* --- NAVBAR PREMIUM --- */
+        header { background-color: var(--card-background); box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 900; border-bottom: 1px solid #e2e8f0; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 15px 20px; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-red); text-decoration: none; letter-spacing: -1px; }
+        .logo span { color: var(--secondary-yellow); }
+        .nav-status { font-weight: 700; color: #ca8a04; background-color: #fef9c3; padding: 6px 14px; border-radius: 30px; font-size: 0.85rem; border: 1px solid #fef08a; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .container { max-width: 650px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 680px; margin: 40px auto; padding: 0 20px; }
         
+        /* --- KARTU UTAMA FORM --- */
         .po-box {
             background-color: var(--card-background);
-            padding: 35px;
+            padding: 40px;
             border-radius: var(--border-radius);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-top: 5px solid #eab308; /* Warna kuning khas Pre-Order */
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid var(--secondary-yellow);
         }
 
-        .po-box h1 { font-size: 1.8rem; margin-bottom: 10px; color: #a16207; }
-        .po-box p.subtitle { color: var(--text-light); margin-bottom: 25px; font-size: 0.95rem; }
+        .po-box h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text-color); letter-spacing: -0.5px; }
+        .po-box p.subtitle { color: var(--text-light); margin-bottom: 30px; font-size: 1rem; }
 
         /* Banner info ringkasan produk yang dipesan */
         .product-summary-box {
-            background-color: var(--background-color);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid #eab308;
+            background-color: #fffbeb;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #fef08a;
+            border-left: 5px solid var(--secondary-yellow);
         }
-        .product-summary-box h3 { font-size: 1.1rem; margin-bottom: 4px; }
-        .product-summary-box p { font-weight: bold; color: var(--primary-color); }
+        .product-summary-box span { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #b45309; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .product-summary-box h3 { font-size: 1.3rem; font-weight: 800; color: var(--text-color); margin-bottom: 4px; letter-spacing: -0.5px; }
+        .product-summary-box p { font-weight: 800; font-size: 1.25rem; color: var(--primary-red); }
 
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; }
+        /* Form Controls */
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; color: var(--text-color); text-transform: uppercase; letter-spacing: 0.5px; }
         
         .form-control {
-            width: 100%; padding: 12px; border: 1px solid var(--text-light); border-radius: 8px;
-            background-color: var(--background-color); color: var(--text-color); outline: none; font-size: 1rem;
+            width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px;
+            background-color: #ffffff; color: var(--text-color); outline: none; font-size: 1rem; transition: all 0.2s ease;
         }
-        .form-control:focus { border-color: #eab308; box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2); }
+        .form-control::placeholder { color: #94a3b8; }
+        .form-control:focus { border-color: var(--secondary-yellow); box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.15); }
 
-        .flex-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .flex-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
+        /* Total Bayar Box */
         .total-pay-box {
-            background-color: var(--background-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 25px;
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
             text-align: right;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            color: var(--text-light);
         }
+        .total-pay-box strong { font-size: 1.6rem; font-weight: 800; margin-left: 5px; vertical-align: middle; }
 
+        /* Tombol Submit */
         .btn-submit-po {
-            display: block; width: 100%; padding: 14px; background-color: #eab308; color: white;
-            border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer;
-            margin-top: 20px; text-align: center; text-decoration: none;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white;
+            border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer;
+            margin-top: 25px; text-align: center; text-decoration: none; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);
+            transition: all 0.2s ease;
         }
-        .btn-submit-po:hover { opacity: 0.9; }
+        .btn-submit-po:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35); opacity: 1; }
+        .btn-submit-po:active { transform: translateY(0); }
+
+        @media (max-width: 576px) {
+            .po-box { padding: 25px 20px; }
+            .flex-group { grid-template-columns: 1fr; gap: 0; }
+            .total-pay-box { text-align: center; }
+            .total-pay-box strong { display: block; margin-top: 5px; margin-left: 0; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <nav class="navbar">
-            <a href="index.html" class="logo">Bakaran Gen Z</a>
-            <span style="font-weight: bold; color: #eab308;">Sistem Pre-Order (PO)</span>
+            <a href="index.html" class="logo">Bakaran<span>Gen Z</span></a>
+            <span class="nav-status">Sistem Pre-Order (PO)</span>
         </nav>
     </header>
 
@@ -85,14 +114,12 @@
             <h1>Formulir Kontrak Pre-Order</h1>
             <p class="subtitle">Silakan lengkapi data kustomisasi dan pengiriman Anda di bawah ini untuk mengamankan kuota pengerjaan produksi.</p>
             
-            <!-- Ringkasan Paket Barang -->
             <div class="product-summary-box">
-                <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.5px;">Produk Yang Dipilih:</span>
+                <span>Produk Yang Dipilih:</span>
                 <h3 id="poProductName">Memuat nama produk...</h3>
                 <p id="poProductPrice">Rp 0</p>
             </div>
 
-            <!-- Formulir Data Pembeli -->
             <form id="poFormInput">
                 <div class="form-group">
                     <label for="poCustomerName">Nama Lengkap Pemesan</label>
@@ -106,7 +133,7 @@
                     </div>
                     <div class="form-group">
                         <label for="poDuration">Estimasi Pengerjaan</label>
-                        <input type="text" id="poDuration" class="form-control" value="1 - 2 Hari Kerja" readonly style="background:#e2e8f0; color:#64748b;">
+                        <input type="text" id="poDuration" class="form-control" value="1 - 2 Hari Kerja" readonly style="background:#f1f5f9; color:#64748b; border-color:#e2e8f0; cursor:not-allowed;">
                     </div>
                 </div>
 
@@ -117,14 +144,17 @@
 
                 <div class="form-group">
                     <label for="poAddress">Alamat Pengiriman Lengkap</label>
-                    <textarea id="poAddress" class="form-control" rows="3" placeholder="Tuliskan nama jalan, kecamatan, kabupaten, dan kode pos" required></textarea>
+                    <textarea id="poAddress" class="form-control" rows="3" placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, kecamatan, kabupaten, dan kode pos" required></textarea>
                 </div>
 
                 <div class="total-pay-box">
-                    Estimasi Total Biaya: <strong id="poTotalLabel" style="color: #eab308;">Rp 0</strong>
+                    Estimasi Total Biaya: <strong id="poTotalLabel" style="color: var(--primary-red);">Rp 0</strong>
                 </div>
 
-                <button type="submit" class="btn-submit-po">Kirim Formulir PO ke WhatsApp ➔</button>
+                <button type="submit" class="btn-submit-po">
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.5 2 2 6.5 2 12c0 2.18.7 4.2 1.95 5.87L2.05 22l4.25-1.11c1.62.88 3.44 1.36 5.34 1.36 5.5 0 10-4.5 10-10S17.54 2 12.04 2m5.72 14.1c-.24.67-1.42 1.31-1.95 1.36-.53.05-1.2.05-3.14-.72-2.48-1-4.08-3.53-4.2-3.7-.13-.17-1.03-1.37-1.03-2.62s.65-1.85.88-2.11c.24-.26.5-.33.67-.33s.34 0 .49.03c.15.03.35.03.54.49.2.48.67 1.63.73 1.75.06.12.1.27.03.42-.07.15-.15.25-.24.36-.1.1-.2.24-.3.35-.11.1-.22.23-.1.43.12.2 1.54 2.5 3.32 3.34.45.21.8.34 1.08.43.46.14.88.12 1.21.07.37-.05 1.13-.46 1.29-.91.16-.45.16-.83.11-.91-.05-.08-.18-.12-.38-.23z"/></svg>
+                    <span>Kirim Formulir PO ke WhatsApp</span>
+                </button>
             </form>
         </div>
     </main>
@@ -160,7 +190,7 @@
             const address = document.getElementById('poAddress').value;
             const finalTotal = document.getElementById('poTotalLabel').innerText;
 
-            const targetWA = "6289647597217"; // Ganti dengan nomor WhatsApp Toko Anda
+            const targetWA = "6289647597217"; // Nomor WhatsApp Toko Bakaran Gen Z
 
             // Format Nota Pre-Order khusus agar mudah diarsip penjual
             let textNota = `📝 *NOTA PENGAJUAN PRE-ORDER (PO)*%0A`;
