@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Mode - Bakaran GenZ</title>
+    <style>
+        /* --- VARIABLE VISUAL THEME --- */
+        :root {
+            --primary-red: #b31217;
+            --secondary-yellow: #fBBF24;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #020617 100%);
+            color: var(--text-light);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* --- BACKGROUND DECORATION --- */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(179,18,23,0.2) 0%, rgba(0,0,0,0) 70%);
+            top: 15%; left: 20%;
+            z-index: 1;
+            animation: pulseGlow 6s infinite alternate;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, rgba(0,0,0,0) 70%);
+            bottom: 15%; right: 20%;
+            z-index: 1;
+            animation: pulseGlow 6s infinite alternate-reverse;
+        }
+
+        /* --- CONTENT MAIN CONTAINER --- */
+        .preview-container {
+            text-align: center;
+            z-index: 10;
+            max-width: 550px;
+            width: 100%;
+            padding: 40px 30px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            animation: fadeInUpSlowing 1s ease-out;
+        }
+
+        /* Icon Badge Decorative */
+        .icon-badge {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: floatAnim 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-light);
+            line-height: 1.3;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        h1 span {
+            color: var(--primary-red);
+            text-shadow: 0 0 20px rgba(179, 18, 23, 0.2);
+        }
+        
+        h1 span.alt {
+            color: var(--secondary-yellow);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+        }
+
+        p.description {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Divider Line */
+        .divider {
+            width: 50px;
+            height: 4px;
+            background-color: var(--secondary-yellow);
+            margin: 25px auto;
+            border-radius: 2px;
+        }
+
+        /* --- WATERMARK FOOTER --- */
+        .watermark {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .watermark span {
+            color: var(--primary-red);
+            font-weight: 700;
+        }
+
+        /* --- ANIMATIONS TIMELINE --- */
+        @keyframes fadeInUpSlowing {
+            0% { opacity: 0; transform: translateY(30px); filter: blur(4px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .preview-container { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+            p.description { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-container">
+        
+        <div class="icon-badge">🤭</div>
+
+        <h1><span>Gak bisa lanjut ya?</span><br>Namanya juga <span class="alt">preview</span></h1>
+        
+        <div class="divider"></div>
+        
+        <p class="description">Aslinya mah udah kelar,tapi segini aja cukup.</p>
+
+        <div class="watermark">
+            by <span>DivvaBhrzky</span>
+        </div>
+
+    </div>
+
+</body>
+</html>

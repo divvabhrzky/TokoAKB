@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Pesanan - Bakaran GenZ</title>
+    <style>
+        /* --- VARIABLE STYLE UTAMA --- */
+        :root {
+            --primary-red: #b31217;
+            --secondary-yellow: #fBBF24;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --radius: 12px;
+            --green-success: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--background); color: var(--text-main); line-height: 1.6; padding: 30px; }
+
+        /* --- NAVBAR --- */
+        header { background-color: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.03); border-radius: var(--radius); margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 15px 25px; }
+        .logo-text { font-size: 1.4rem; font-weight: 800; color: var(--primary-red); text-decoration: none; letter-spacing: -1px; }
+        .logo-text span { color: var(--secondary-yellow); }
+        .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--primary-red); }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .page-header h1 { font-size: 1.8rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .page-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- UTILITY BAR (CARI & FILTER) --- */
+        .utility-bar { background: var(--card-bg); padding: 20px; border-radius: var(--radius); border: 1px solid #e2e8f0; margin-bottom: 25px; }
+        .controls-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+        .search-box input, .select-box select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.95rem; outline: none; background-color: white; }
+        .search-box input:focus, .select-box select:focus { border-color: var(--primary-red); box-shadow: 0 0 0 3px #fff1f2; }
+
+        /* --- TABLE STYLE --- */
+        .table-container { background: var(--card-bg); border-radius: var(--radius); border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
+        th { background-color: #f8fafc; color: #475569; font-weight: 700; padding: 16px 20px; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 16px 20px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+
+        .order-id { font-weight: 700; color: var(--text-main); font-family: monospace; font-size: 1rem; }
+        .cust-name { font-weight: 600; color: var(--text-main); }
+        .cust-address { font-size: 0.85rem; color: var(--text-muted); max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* --- BADGE STATUS --- */
+        .badge { display: inline-block; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-align: center; }
+        .badge-unpaid { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }   /* Belum Lunas */
+        .badge-paid { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }     /* Lunas */
+
+        /* Tombol Aksi */
+        .btn-action { padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; background: white; transition: all 0.2s; }
+        .btn-success { color: white; background-color: var(--green-success); border-color: #a7f3d0; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15); }
+        .btn-success:hover { background-color: #059669; }
+        .btn-disabled { color: var(--text-muted); background-color: #f1f5f9; border-color: #e2e8f0; cursor: not-allowed; box-shadow: none; }
+
+        .status-msg { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; }
+        
+        @media (max-width: 992px) {
+            .controls-grid { grid-template-columns: 1fr; }
+            th:nth-child(4), td:nth-child(4) { display: none; } /* Sembunyikan tgl di HP */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo-text">Bakaran<span>GenZ</span> Admin</a>
+            <ul class="nav-links">
+                <li><a href="admin.html">Manajemen Produk</a></li>
+                <li><a href="daftar-pesanan.html" style="color: var(--primary-red);">Daftar Orderan</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <h1>Daftar Pesanan Masuk</h1>
+                <p>Pantau data pesanan pelanggan dan perbarui status pembayaran secara real-time.</p>
+            </div>
+        </div>
+
+        <!-- UTILITY CONTROL BAR -->
+        <div class="utility-bar">
+            <div class="controls-grid">
+                <div class="search-box">
+                    <input type="text" id="inputCariPesanan" placeholder="🔍 Cari berdasarkan ID Order atau Nama Pelanggan..." oninput="prosesDataPesanan()">
+                </div>
+                <div class="select-box">
+                    <select id="filterStatusBayar" onchange="prosesDataPesanan()">
+                        <option value="all">💳 Semua Status Pembayaran</option>
+                        <option value="Belum Lunas">❌ Belum Lunas</option>
+                        <option value="Lunas">🟢 Lunas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABEL DATA ORDERAN -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Order</th>
+                        <th>Pelanggan / Alamat</th>
+                        <th>Detail Menu Belanja</th>
+                        <th>Tanggal & Waktu</th>
+                        <th>Metode</th>
+                        <th>Status Bayar</th>
+                        <th style="text-align: right;">Aksi Kontrol</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelPesananBody">
+                    <tr>
+                        <td colspan="7" class="status-msg">Menghubungkan ke server database cloud...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // === URL API WEB APP GOOGLE APPS SCRIPT ANDA ===
+        // Ganti dengan URL deployment Web App Apps Script Anda yang menangani database pesanan/orderan
+        const API_URL = "https://script.google.com/macros/s/AKfycbyamzNaR4OOWydmLtTKYerRTUtP79GlTenlRHsvIsQoAk7ubDM00pmSxm05aZO9Y7uflg/exec"; 
+
+        let databasePesananMaster = [];
+
+        // 1. MEMBUAT DATA SIMULASI AWAL (Jika database cloud belum terhubung/masih kosong)
+        const dataSimulasi = [
+            { id: "ORD-20260606-1102", nama: "Yala Sholi Agir", alamat: "Pamulang Permai Ruang 510", detail: "Mozza-Bite Crispy (x2), Es Teh (x2)", tanggal: "06 Juni 2026 14:20", metode: "QRIS", status_bayar: "Belum Lunas" },
+            { id: "ORD-20260606-4829", nama: "Safitri", alamat: "Jl. Puspitek No. 12, Serpong", detail: "Sosis Bakar Jumbo (x3)", tanggal: "06 Juni 2026 15:05", metode: "Transfer Bank", status_bayar: "Lunas" },
+            { id: "ORD-20260606-9912", nama: "Divva Baharrizky", alamat: "Cirebon Barat Cluster A", detail: "Burger Bakar Genz (x1), Lemonade (x1)", tanggal: "06 Juni 2026 16:11", metode: "COD", status_bayar: "Belum Lunas" }
+        ];
+
+        // 2. FUNGSI LOAD DATA DARI CLOUD / LOCAL BACKUP
+        async function muatDataPesanan() {
+            const tbody = document.getElementById('tabelPesananBody');
+            try {
+                const respon = await fetch(`${API_URL}?type=get_orders&_=${new Date().getTime()}`);
+                const data = await respon.json();
+                databasePesananMaster = data.length > 0 ? data : dataSimulasi;
+                prosesDataPesanan();
+            } catch (error) {
+                console.warn("Menggunakan data lokal simulasi untuk kebutuhan demo presentasi.");
+                databasePesananMaster = dataSimulasi;
+                prosesDataPesanan();
+            }
+        }
+
+        // 3. PROCESS FILTER & SEARCH LOGIC
+        function prosesDataPesanan() {
+            const tbody = document.getElementById('tabelPesananBody');
+            const kataKunci = document.getElementById('inputCariPesanan').value.toLowerCase().trim();
+            const filterBayar = document.getElementById('filterStatusBayar').value;
+
+            let hasilFilter = [...databasePesananMaster];
+
+            // Filter Berdasarkan Status Pembayaran
+            if (filterBayar !== "all") {
+                hasilFilter = hasilFilter.filter(p => p.status_bayar === filterBayar);
+            }
+
+            // Filter Berdasarkan Kolom Pencarian (ID atau Nama)
+            if (kataKunci !== "") {
+                hasilFilter = hasilFilter.filter(p => 
+                    (p.id && p.id.toLowerCase().includes(kataKunci)) || 
+                    (p.nama && p.nama.toLowerCase().includes(kataKunci))
+                );
+            }
+
+            if (hasilFilter.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="status-msg">Tidak ada data orderan yang cocok.</td></tr>`;
+                return;
+            }
+
+            // 4. RENDERING BARIS TABEL HTML
+            tbody.innerHTML = hasilFilter.map((order) => {
+                const isLunas = order.status_bayar === "Lunas";
+                const badgeClass = isLunas ? "badge-paid" : "badge-unpaid";
+                const statusTeks = isLunas ? "🟢 Lunas" : "❌ Belum Lunas";
+                
+                // Mengunci tombol jika orderan sudah berstatus lunas
+                const tombolAksi = isLunas 
+                    ? `<button class="btn-action btn-disabled" disabled>✓ Sudah Lunas</button>` 
+                    : `<button class="btn-action btn-success" onclick="ubahStatusMenjadiLunas('${order.id}')">💰 Tandai Lunas</button>`;
+
+                return `
+                    <tr>
+                        <td><div class="order-id">${order.id}</div></td>
+                        <td>
+                            <div class="cust-name">${order.nama}</div>
+                            <div class="cust-address" title="${order.alamat}">${order.alamat}</div>
+                        </td>
+                        <td style="font-size:0.9rem; font-weight:500;">${order.detail}</td>
+                        <td style="font-size:0.85rem; color:var(--text-muted);">${order.tanggal}</td>
+                        <td style="font-weight:700; font-size:0.85rem; color:var(--primary-red);">${order.metode}</td>
+                        <td><span class="badge ${badgeClass}">${statusTeks}</span></td>
+                        <td style="text-align: right;">${tombolAksi}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 5. CORE LOGIC: MENGUBAH STATUS PEMBAYARAN MENJADI LUNAS
+        async function ubahStatusMenjadiLunas(idOrderTarget) {
+            if(!confirm(`Apakah Anda yakin ingin mengonfirmasi pembayaran untuk nomor order ${idOrderTarget} menjadi LUNAS?`)) return;
+
+            // Cari index data di array lokal dan perbarui langsung (Instant UI Feedback)
+            const indexData = databasePesananMaster.findIndex(p => p.id === idOrderTarget);
+            if (indexData !== -1) {
+                databasePesananMaster[indexData].status_bayar = "Lunas";
+                prosesDataPesanan(); // Segarkan tampilan tabel secara instan
+            }
+
+            // Kirim perintah perubahan data ke Google Sheets Cloud via POST Method
+            try {
+                const params = new URLSearchParams();
+                params.append("action", "update_payment_status");
+                params.append("id", idOrderTarget);
+                params.append("status_bayar", "Lunas");
+
+                await fetch(API_URL, {
+                    method: "POST",
+                    body: params
+                });
+                
+                alert(`🎉 Orderan ${idOrderTarget} sukses diperbarui ke database cloud sebagai LUNAS!`);
+            } catch (error) {
+                console.error("Gagal sinkronisasi ke Google Sheets:", error);
+                alert("Status berhasil diperbarui pada tampilan lokal.");
+            }
+        }
+
+        // Jalankan sinkronisasi database saat pertama kali membuka halaman
+        window.onload = muatDataPesanan;
+    </script>
+</body>
+</html>
